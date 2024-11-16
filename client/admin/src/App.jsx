@@ -34,6 +34,7 @@ import LoginPage from "./Pages/Login"
 import IndexPage from "./Pages/Index.jsx"
 import UsersDetails from "./Pages/Users.jsx"
 import LogoutPage from "./Pages/Logout.jsx"
+import ReservationsPage from "./Pages/Reservations.jsx"
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/admin" Component={() => (<ProtectedRoute><IndexPage/></ProtectedRoute>)} />
           <Route path="/admin/users" Component={() => (<ProtectedRoute><UsersDetails/></ProtectedRoute>)} />
           <Route path="/admin/logout" Component={() => (<ProtectedRoute><LogoutPage/></ProtectedRoute>)} />
+          <Route path="/admin/reservations" Component={() => (<ProtectedRoute><ReservationsPage/></ProtectedRoute>)} />
         </Routes>
       </BrowserRouter>
     </>

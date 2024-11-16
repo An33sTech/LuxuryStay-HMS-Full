@@ -7,7 +7,7 @@ const verifyToken = require("../middleware/auth")
 
 router.get('/', async (req, res) => {
   try {
-      const reservations = await Reservation.find();
+      const reservations = await Reservation.find().populate("guest");
       res.status(200).json(reservations);
   } catch (error) {
       res.status(500).json({ error: error.message });

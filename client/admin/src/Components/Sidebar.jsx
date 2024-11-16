@@ -31,6 +31,26 @@ function Sidebar() {
                                 <div className="menu-title">Users</div>
                             </Link>
                         </li>
+                        <li>
+                            <Link to={"/admin/reservations"}>
+                                <div className="parent-icon"><i className="material-icons-outlined">event_available</i>
+                                </div>
+                                <div className="menu-title">Reservations</div>
+                            </Link>
+                        </li>
+                        <li>
+                            <a className="has-arrow">
+                                <div className="parent-icon"><i className="material-icons-outlined">bedroom_parent</i>
+                                </div>
+                                <div className="menu-title">Rooms</div>
+                            </a>
+                            <ul>
+                                <li><Link><i className="material-icons-outlined">arrow_right</i>Data</Link>
+                                </li>
+                                <li><Link ><i className="material-icons-outlined">arrow_right</i>Static</Link>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </aside>
