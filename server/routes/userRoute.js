@@ -3,12 +3,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = express.Router();
-const upload = require("../middleware/upload");
 const { body, validationResult } = require("express-validator");
-
+const { singleUpload } = require("../middleware/upload");
 
 // REGISTER a new user
-router.post('/register', upload.single('image'), async (req, res) => {
+router.post('/register', singleUpload, async (req, res) => {
     const { username, password, role, profile } = req.body;
 
     try {

@@ -35,7 +35,8 @@ import IndexPage from "./Pages/Index.jsx"
 import UsersDetails from "./Pages/Users.jsx"
 import LogoutPage from "./Pages/Logout.jsx"
 import ReservationsPage from "./Pages/Reservations.jsx"
-
+import RoomsPage from "./Pages/Rooms.jsx"
+import RoomAddPage from "./Pages/RoomAddPage.jsx"
 
 function App() {
   return (
@@ -51,6 +52,8 @@ function App() {
           <Route path="/admin/users" Component={() => (<ProtectedRoute><UsersDetails/></ProtectedRoute>)} />
           <Route path="/admin/logout" Component={() => (<ProtectedRoute><LogoutPage/></ProtectedRoute>)} />
           <Route path="/admin/reservations" Component={() => (<ProtectedRoute><ReservationsPage/></ProtectedRoute>)} />
+          <Route path="/admin/rooms" Component={() => (<ProtectedRoute><RoomsPage/></ProtectedRoute>)} />
+          <Route path="/admin/room-new" Component={() => (<ProtectedRoute><RoomAddPage/></ProtectedRoute>)} />
         </Routes>
       </BrowserRouter>
     </>

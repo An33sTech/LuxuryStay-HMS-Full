@@ -45,9 +45,9 @@ function Sidebar() {
                                 <div className="menu-title">Rooms</div>
                             </a>
                             <ul>
-                                <li><Link><i className="material-icons-outlined">arrow_right</i>Data</Link>
+                                <li><Link to={"/admin/rooms"}><i className="material-icons-outlined">arrow_right</i>Rooms</Link>
                                 </li>
-                                <li><Link ><i className="material-icons-outlined">arrow_right</i>Static</Link>
+                                <li><Link to={"/admin/room-new"}><i className="material-icons-outlined">arrow_right</i>Add New Room</Link>
                                 </li>
                             </ul>
                         </li>

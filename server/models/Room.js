@@ -6,7 +6,12 @@ const RoomSchema = new mongoose.Schema({
     type: { type: String, enum: ['suite', 'single', 'double'], required: true },
     status: { type: String, enum: ['available', 'occupied', 'cleaning', 'maintenance', 'unavailable'], default: 'available' },
     price: { type: Number, required: true },
-    features: [{ type: String }],
+    features: [
+        {
+            icon: { type: String },
+            text: { type: String, required: true }
+        }
+    ],
     availability: { 
         from: { type: Date },
         to: { type: Date }

@@ -1,11 +1,58 @@
 const express = require('express');
 const Room = require('../models/Room');
 const router = express.Router();
+const { anyUpload } = require("../middleware/upload");
+
+const generateRoomNumber = async () => {
+    let roomNumber;
+    let roomExists = true;
+
+    while (roomExists) {
+        roomNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
+
+        const existingRoom = await Room.findOne({ roomNumber });
+        if (!existingRoom) {
+            roomExists = false;
+        }
+    }
+
+    return roomNumber;
+};
 
 // CREATE a new room
-router.post('/create', async (req, res) => {
+router.post("/create", anyUpload, async (req, res) => {
     try {
-        const newRoom = new Room(req.body);
+        const { roomName, roomType, roomStatus, roomPrice } = req.body;
+
+        const features = [];
+        (req.files || []).forEach((file) => {
+            const match = file.fieldname.match(/features\[(\d+)]\[\w+]/);
+            if (match) {
+                const index = parseInt(match[1], 10);
+                while (features.length <= index) features.push({});
+                features[index].icon = file.filename;
+            }
+        });
+
+        Object.keys(req.body).forEach((key) => {
+            const match = key.match(/features\[(\d+)]\[text]/);
+            if (match) {
+                const index = parseInt(match[1], 10);
+                while (features.length <= index) features.push({});
+                features[index].text = req.body[key];
+            }
+        });
+
+        const roomNumber = await generateRoomNumber();
+
+        const newRoom = new Room({
+            roomNumber,
+            roomName,
+            type: roomType,
+            status: roomStatus,
+            price: roomPrice,
+            features,
+        });
         const savedRoom = await newRoom.save();
         res.status(201).json(savedRoom);
     } catch (error) {
