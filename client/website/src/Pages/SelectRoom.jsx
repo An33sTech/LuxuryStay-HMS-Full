@@ -8,25 +8,27 @@ const SelectRoom = () => {
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-      const fetchRooms = async () => {
-          try {
-              const response = await fetch("http://localhost:5000/rooms", {
-                  method: "GET",
-                  headers: {
-                      "Content-Type": "application/json",
-                  },
-              });
-              if (!response.ok) {
-                  const errorData = await response.json();
-                  throw new Error(errorData.message || "Failed to fetch rooms.");
-              }
-              const result = await response.json();
-              setRooms(result);
-          } catch (error) {
-              console.log(error.message);
-          }
-      };
-      fetchRooms();
+    const fetchRooms = async () => {
+      try {
+        const checkInFormData = JSON.parse(localStorage.getItem("checkInFormData"));
+        const { start, end } = checkInFormData || {};
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms/available?start=${start}&end=${end}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to fetch rooms.");
+        }
+        const result = await response.json();
+        setRooms(result);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchRooms();
   }, []);
   useEffect(() => {
 
@@ -51,12 +53,12 @@ const SelectRoom = () => {
               <div className="py-5 space-y-2">
                 {room.features.map((facility, index) => (
                   <div className="flex items-center space-x-4" key={index}>
-                    <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${facility.icon}`} alt={facility.text} className="text-cyan-500"/>
+                    <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${facility.icon}`} alt={facility.text} className="text-cyan-500" />
                     <span>{facility.text}</span>
                   </div>
                 ))}
               </div>
-              
+
               {/* ratings */}
               {/* <div className="flex space-x-2">
                 {room.ratingstars.map((icon, index) => (
@@ -83,10 +85,10 @@ const SelectRoom = () => {
 
               {/* <p>{room.persons}</p> */}
               <p className="text-[#CDB9FF]">Night Stay</p>
-              <Link to={`/bookroom/${room._id}`}>          
-              <button className="p-4 rounded-lg bg-gradient-to-r btn">
-                Book Room
-              </button>
+              <Link to={`/bookroom/${room._id}`}>
+                <button className="p-4 rounded-lg bg-gradient-to-r btn">
+                  Book Room
+                </button>
               </Link>
             </div>
           </div>

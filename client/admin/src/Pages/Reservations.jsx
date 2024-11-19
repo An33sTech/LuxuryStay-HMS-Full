@@ -7,7 +7,7 @@ function ReservationsPage(){
     useEffect(() => {
         const fetchReservations = async () => {
             try {
-                const response = await fetch("http://localhost:5000/reservations", {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

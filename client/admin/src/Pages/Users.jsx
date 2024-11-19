@@ -7,7 +7,7 @@ function UsersDetails() {
     const [users, setUsers] = useState([]);
     const handleDeactivateUser = async (userId) => {
         try {
-            const response = await fetch(`http://localhost:5000/users/update/${userId}/role-status`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/update/${userId}/role-status`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -31,7 +31,7 @@ function UsersDetails() {
 
     const handleActivateUser = async (userId) => {
         try {
-            const response = await fetch(`http://localhost:5000/users/update/${userId}/role-status`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/update/${userId}/role-status`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -56,7 +56,7 @@ function UsersDetails() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch("http://localhost:5000/users", {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 const express = require('express');
 const Room = require('../models/Room');
+const Reservation = require('../models/Reservation');
 const router = express.Router();
 const { anyUpload } = require("../middleware/upload");
 
@@ -22,7 +23,7 @@ const generateRoomNumber = async () => {
 // CREATE a new room
 router.post("/create", anyUpload, async (req, res) => {
     try {
-        const { roomName, roomType, roomStatus, roomPrice } = req.body;
+        const { roomName, roomType, roomStatus, roomPrice, roomShortDesc, roomComments } = req.body;
 
         let features = [];
         if (typeof req.body.features === 'string') {
@@ -46,10 +47,12 @@ router.post("/create", anyUpload, async (req, res) => {
         const newRoom = new Room({
             roomNumber,
             roomName,
+            shortDesc: roomShortDesc,
             type: roomType,
             status: roomStatus,
             price: roomPrice,
             features,
+            comments: roomComments,
         });
 
         const savedRoom = await newRoom.save();
@@ -94,7 +97,23 @@ router.delete('/delete/:id', async (req, res) => {
 // GET available rooms
 router.get('/available', async (req, res) => {
     try {
-        const availableRooms = await Room.find({ status: 'available' });
+        const { start, end } = req.query;
+        if (!start || !end) {
+            return res.status(400).json({ message: "Check-in and check-out dates are required." });
+        }
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const bookedRoomIds = await Reservation.find({
+            $or: [
+                {
+                    checkIn: { $lt: endDate },
+                    checkOut: { $gt: startDate },
+                },
+            ],
+        }).distinct('roomId');
+        const availableRooms = await Room.find({
+            _id: { $nin: bookedRoomIds },
+        });
         res.status(200).json(availableRooms);
     } catch (error) {
         res.status(500).json({ error: error.message });

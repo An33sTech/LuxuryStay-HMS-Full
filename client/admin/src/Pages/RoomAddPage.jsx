@@ -9,6 +9,8 @@ function RoomAddPage() {
         roomType: "",
         roomStatus: "",
         roomPrice: "",
+        roomShortDesc: "",
+        roomComments: "",
     });
 
     const addFeature = () => {
@@ -38,6 +40,8 @@ function RoomAddPage() {
         data.append("roomType", formData.roomType);
         data.append("roomStatus", formData.roomStatus);
         data.append("roomPrice", formData.roomPrice);
+        data.append("roomShortDesc", formData.roomShortDesc);
+        data.append("roomComments", formData.roomComments);
 
         features.forEach((feature, index) => {
             if (feature.icon && feature.text) {
@@ -50,7 +54,7 @@ function RoomAddPage() {
         });
 
         try {
-            const response = await fetch("http://localhost:5000/rooms/create", {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms/create`, {
                 method: "POST",
                 body: data,
             });
@@ -105,6 +109,14 @@ function RoomAddPage() {
                                 <div className="col-md-6">
                                     <label htmlFor="roomPrice" className="form-label">Room Price</label>
                                     <input type="number" onChange={onChange} className="form-control" id="roomPrice" name="roomPrice" />
+                                </div>
+                                <div className="col-md-6">
+                                    <label htmlFor="roomShortDesc" className="form-label">Short Desc</label>
+                                    <textarea className="form-control" name="roomShortDesc" id="roomShortDesc" onChange={onChange}></textarea>
+                                </div>
+                                <div className="col-md-6">
+                                    <label htmlFor="roomComments" className="form-label">Comments</label>
+                                    <textarea className="form-control" name="roomComments" id="roomComments" onChange={onChange}></textarea>
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="roomFeatures" className="form-label">Room Features</label>

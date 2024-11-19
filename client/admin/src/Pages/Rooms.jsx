@@ -9,7 +9,7 @@ function RoomsPage() {
     useEffect(() => {
         const fetchRooms = async () => {
             try {
-                const response = await fetch("http://localhost:5000/rooms", {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
