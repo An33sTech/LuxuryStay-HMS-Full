@@ -31,38 +31,34 @@ function RoomAddPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         const data = new FormData();
-        
+
         data.append("roomName", formData.roomName);
         data.append("roomType", formData.roomType);
         data.append("roomStatus", formData.roomStatus);
         data.append("roomPrice", formData.roomPrice);
-    
-        // Ensure that both icon and text are present for each feature
+
         features.forEach((feature, index) => {
-            console.log(feature);
-            // Check if both icon and text are present before appending
             if (feature.icon && feature.text) {
-                data.append(`features[${index}][icon]`, feature.icon);
                 data.append(`features[${index}][text]`, feature.text);
+                data.append(`features[${index}][icon]`, feature.icon);
             } else {
-                // If any feature is missing text or icon, alert the user or handle the error
                 alert(`Please fill both text and icon for feature ${index + 1}`);
                 return;
             }
         });
-    
+
         try {
             const response = await fetch("http://localhost:5000/rooms/create", {
                 method: "POST",
                 body: data,
             });
-    
+
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
-    
+
             const result = await response.json();
             console.log(result);
             alert("Room Added successfully!");
@@ -70,7 +66,6 @@ function RoomAddPage() {
             alert("Error adding room: " + error.message);
         }
     };
-
 
     return (
         <>

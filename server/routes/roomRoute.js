@@ -24,22 +24,20 @@ router.post("/create", anyUpload, async (req, res) => {
     try {
         const { roomName, roomType, roomStatus, roomPrice } = req.body;
 
-        const features = [];
-        (req.files || []).forEach((file) => {
-            const match = file.fieldname.match(/features\[(\d+)]\[\w+]/);
-            if (match) {
-                const index = parseInt(match[1], 10);
-                while (features.length <= index) features.push({});
-                features[index].icon = file.filename;
-            }
-        });
+        let features = [];
+        if (typeof req.body.features === 'string') {
+            features = JSON.parse(req.body.features);
+        } else if (Array.isArray(req.body.features)) {
+            features = req.body.features;
+        }
 
-        Object.keys(req.body).forEach((key) => {
-            const match = key.match(/features\[(\d+)]\[text]/);
+        (req.files || []).forEach((file) => {
+            const match = file.fieldname.match(/features\[(\d+)]\[icon]/);
             if (match) {
                 const index = parseInt(match[1], 10);
-                while (features.length <= index) features.push({});
-                features[index].text = req.body[key];
+                if (features[index]) {
+                    features[index].icon = file.filename;
+                }
             }
         });
 
@@ -53,6 +51,7 @@ router.post("/create", anyUpload, async (req, res) => {
             price: roomPrice,
             features,
         });
+
         const savedRoom = await newRoom.save();
         res.status(201).json(savedRoom);
     } catch (error) {
@@ -105,7 +104,7 @@ router.get('/available', async (req, res) => {
 // GET a single room by ID
 router.get('/:id', async (req, res) => {
     try {
-        const room = await Room.findById(req.params.id);    
+        const room = await Room.findById(req.params.id);
         if (!room) return res.status(404).json({ message: 'Room not found' });
         res.status(200).json(room);
     } catch (error) {
