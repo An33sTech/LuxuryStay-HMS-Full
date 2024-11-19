@@ -11,7 +11,9 @@ const UserSchema = new mongoose.Schema({
             phone: { type: String, required: true }
         },
         preferences: { type: Map, of: String },
-        image: { type: String } 
+        image: { type: String },
+        city: {type: String},
+        country: {type: String}
     },
     status: { type: String, enum: ['active', 'inactive'], default: 'active' },
     createdAt: { type: Date, default: Date.now },
