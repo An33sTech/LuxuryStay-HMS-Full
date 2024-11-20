@@ -48,7 +48,7 @@ const SelectRoom = () => {
             {/* Box 2: Room Details */}
             <div>
               <h1 className="font-extrabold text-3xl">{room.roomName}</h1>
-              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil doloremque iusto itaque vero quos sapiente repudiandae.</p>
+              <p>{room.shortDesc}</p>
 
               <div className="py-5 space-y-2">
                 {room.features.map((facility, index) => (
@@ -84,7 +84,7 @@ const SelectRoom = () => {
               </div> */}
 
               {/* <p>{room.persons}</p> */}
-              <p className="text-[#CDB9FF]">Night Stay</p>
+              <p className="text-[#CDB9FF]">{room.comments}</p>
               <Link to={`/bookroom/${room._id}`}>
                 <button className="p-4 rounded-lg bg-gradient-to-r btn">
                   Book Room
