@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
+import { useParams } from "react-router-dom";
 
-function RoomAddPage() {
+function RoomEditPage() {
+    const { roomId } = useParams();
     const [features, setFeatures] = useState([{ icon: null, text: "" }]);
     const [formData, setFormData] = useState({
         roomName: "",
@@ -12,8 +14,47 @@ function RoomAddPage() {
         roomShortDesc: "",
         roomComments: "",
         persons: "",
-        image: null,
+        roomImage: null,
     });
+
+    useEffect(() => {
+        const fetchRoomDetails = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms/${roomId}`, {
+                    method: "GET",
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch room details.");
+                }
+
+                const result = await response.json();
+                setFormData({
+                    roomName: result.roomName || "",
+                    roomType: result.type || "",
+                    roomStatus: result.status || "",
+                    roomPrice: result.price || "",
+                    roomShortDesc: result.shortDesc || "",
+                    roomComments: result.comments || "",
+                    persons: result.persons || "",
+                    roomImage: result.image || null,
+                });
+                setFeatures(result.features || [{ icon: null, text: "" }]);
+                
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+
+        fetchRoomDetails();
+        $('#fancy-file-upload').FancyFileUpload({
+            params: {
+                action: 'fileuploader',
+            },
+            maxfilesize: 1000000,
+        });
+    }, [roomId]);
+
 
     const addFeature = () => {
         setFeatures([...features, { icon: null, text: "" }]);
@@ -32,9 +73,11 @@ function RoomAddPage() {
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
     const handleImageChange = (e) => {
-        setFormData({ ...formData, image: e.target.files[0] });
+        setFormData({ ...formData, roomImage: e.target.files[0] });
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -48,26 +91,17 @@ function RoomAddPage() {
         data.append("roomComments", formData.roomComments);
         data.append("persons", formData.persons);
 
-        if (formData.image) {
-            data.append("image", formData.image);
+        if (formData.roomImage) {
+            data.append("roomImage", formData.roomImage);
+        }
+        for (const [index, feature] of features.entries()) {
+            data.append(`features[${index}][icon]`, feature.icon);
+            data.append(`features[${index}][text]`, feature.text);
         }
 
-        features.forEach((feature, index) => {
-            if (feature.icon && feature.text) {
-                data.append(`features[${index}][text]`, feature.text);
-                data.append(`features[${index}][icon]`, feature.icon);
-            } else {
-                alert(`Please fill both text and icon for feature ${index + 1}`);
-                return;
-            }
-        });
-
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms/create`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms/update/${roomId}`, {
+                method: "PUT",
                 body: data,
             });
 
@@ -76,19 +110,13 @@ function RoomAddPage() {
             }
 
             const result = await response.json();
+            console.log(result);
             alert("Room Added successfully!");
         } catch (error) {
             alert("Error adding room: " + error.message);
         }
     };
-    useEffect(() => {
-        $('#fancy-file-upload').FancyFileUpload({
-            params: {
-                action: 'fileuploader',
-            },
-            maxfilesize: 1000000,
-        });
-    }, []);
+
     return (
         <>
             <Header />
@@ -102,11 +130,11 @@ function RoomAddPage() {
                             <form className="row g-3" onSubmit={handleSubmit} encType="multipart/form-data">
                                 <div className="col-md-6">
                                     <label htmlFor="roomName" className="form-label">Room Name</label>
-                                    <input type="text" className="form-control" id="roomName" onChange={onChange} name="roomName" />
+                                    <input type="text" className="form-control" id="roomName" value={formData.roomName} onChange={onChange} name="roomName" />
                                 </div>
                                 <div className="col-md-6">
                                     <label htmlFor="roomType" className="form-label">Room Type</label>
-                                    <select id="roomType" onChange={onChange} name="roomType" className="form-select">
+                                    <select id="roomType" onChange={onChange} value={formData.roomType} name="roomType" className="form-select">
                                         <option value="">Choose...</option>
                                         <option value="suite">Suite</option>
                                         <option value="single">Single</option>
@@ -115,7 +143,7 @@ function RoomAddPage() {
                                 </div>
                                 <div className="col-md-6">
                                     <label htmlFor="roomStatus" className="form-label">Room Status</label>
-                                    <select id="roomStatus" onChange={onChange} name="roomStatus" className="form-select">
+                                    <select id="roomStatus" onChange={onChange} value={formData.roomStatus} name="roomStatus" className="form-select">
                                         <option value="">Choose...</option>
                                         <option value="available">Available</option>
                                         <option value="occupied">Occupied</option>
@@ -126,19 +154,19 @@ function RoomAddPage() {
                                 </div>
                                 <div className="col-md-6">
                                     <label htmlFor="roomPrice" className="form-label">Room Price</label>
-                                    <input type="number" onChange={onChange} className="form-control" id="roomPrice" name="roomPrice" />
+                                    <input type="number" onChange={onChange} value={formData.roomPrice} className="form-control" id="roomPrice" name="roomPrice" />
                                 </div>
                                 <div className="col-md-6">
                                     <label htmlFor="roomShortDesc" className="form-label">Short Desc</label>
-                                    <textarea className="form-control" name="roomShortDesc" id="roomShortDesc" onChange={onChange}></textarea>
+                                    <textarea className="form-control" name="roomShortDesc" id="roomShortDesc" onChange={onChange} value={formData.roomShortDesc}></textarea>
                                 </div>
                                 <div className="col-md-6">
                                     <label htmlFor="roomComments" className="form-label">Comments</label>
-                                    <textarea className="form-control" name="roomComments" id="roomComments" onChange={onChange}></textarea>
+                                    <textarea className="form-control" name="roomComments" id="roomComments" onChange={onChange} value={formData.roomComments}></textarea>
                                 </div>
                                 <div className="col-md-6">
                                     <label htmlFor="persons" className="form-label">Guests</label>
-                                    <select id="persons" onChange={onChange} name="persons" className="form-select">
+                                    <select id="persons" onChange={onChange} value={formData.persons} name="persons" className="form-select">
                                         <option value="">Choose...</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -147,7 +175,15 @@ function RoomAddPage() {
                                     </select>
                                 </div>
                                 <div className="col-md-12">
-                                    <label htmlFor="image" className="form-label">Room Image</label>
+                                    <label htmlFor="roomImage" className="form-label">Room Image</label>
+                                    {formData.roomImage && (
+                                        <p>
+                                            Current Image:{" "}
+                                            <a href={`${import.meta.env.VITE_BACKEND_URL}/uploads/${formData.roomImage}`} target="_blank" rel="noopener noreferrer">
+                                                {formData.roomImage}
+                                            </a>
+                                        </p>
+                                    )}
                                     <input id="fancy-file-upload" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" onChange={handleImageChange}></input>
                                 </div>
                                 <div className="col-md-12">
@@ -155,24 +191,29 @@ function RoomAddPage() {
                                     {features.map((feature, index) => (
                                         <div key={index} className="row mb-2 align-items-center">
                                             <div className="col-md-4">
+                                                {feature.icon && (
+                                                    <p>
+                                                        Current File:{" "}
+                                                        <a href={`${import.meta.env.VITE_BACKEND_URL}/uploads/${feature.icon}`} target="_blank" rel="noopener noreferrer">
+                                                            {feature.icon}
+                                                        </a>
+                                                    </p>
+                                                )}
                                                 <input
                                                     type="file"
                                                     className="form-control"
                                                     accept=".jpg, .png, image/jpeg, image/png"
-                                                    onChange={(e) =>
-                                                        updateFeature(index, "icon", e.target.files[0])
-                                                    }
+                                                    onChange={(e) => updateFeature(index, "icon", e.target.files[0])}
                                                 />
                                             </div>
+
                                             <div className="col-md-6">
                                                 <input
                                                     type="text"
                                                     className="form-control"
                                                     placeholder="Feature Name"
                                                     value={feature.text}
-                                                    onChange={(e) =>
-                                                        updateFeature(index, "text", e.target.value)
-                                                    }
+                                                    onChange={(e) => updateFeature(index, "text", e.target.value)}
                                                 />
                                             </div>
                                             <div className="col-md-2">
@@ -186,6 +227,7 @@ function RoomAddPage() {
                                             </div>
                                         </div>
                                     ))}
+
                                     <button
                                         type="button"
                                         className="btn btn-success"
@@ -210,4 +252,4 @@ function RoomAddPage() {
     );
 }
 
-export default RoomAddPage;
+export default RoomEditPage;

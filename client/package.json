@@ -1,0 +1,10 @@
+{
+  "name": "luxurystay-hms",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix ./website\" \"npm run dev --prefix ./admin\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

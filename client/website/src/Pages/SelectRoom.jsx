@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { rooms } from "../Components/roomsData";
 import { Link } from "react-router-dom";
-import RoomImage from '../assets/img1.jpg'
 
 const SelectRoom = () => {
   const [rooms, setRooms] = useState([]);
@@ -42,7 +41,7 @@ const SelectRoom = () => {
           <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
             {/* Box 1: Room Image */}
             <div>
-              <img src={RoomImage} alt={room.roomName} className="h-full w-full rounded-lg object-cover" />
+              <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${room.image}`} alt={room.roomName} className="h-full w-full rounded-lg object-cover" />
             </div>
 
             {/* Box 2: Room Details */}
@@ -53,7 +52,7 @@ const SelectRoom = () => {
               <div className="py-5 space-y-2">
                 {room.features.map((facility, index) => (
                   <div className="flex items-center space-x-4" key={index}>
-                    <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${facility.icon}`} alt={facility.text} className="text-cyan-500" />
+                    <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${facility.icon}`} alt={facility.text} className="text-cyan-500 w-5 h-5" />
                     <span>{facility.text}</span>
                   </div>
                 ))}
@@ -83,7 +82,7 @@ const SelectRoom = () => {
                 ))}
               </div> */}
 
-              {/* <p>{room.persons}</p> */}
+              <p>{room.persons}</p>
               <p className="text-[#CDB9FF]">{room.comments}</p>
               <Link to={`/bookroom/${room._id}`}>
                 <button className="p-4 rounded-lg bg-gradient-to-r btn">

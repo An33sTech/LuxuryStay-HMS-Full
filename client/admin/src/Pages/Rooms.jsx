@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 function RoomsPage() {
     const [rooms, setRooms] = useState([]);
-
+    const navigate = useNavigate();
+    const handleEdit = (roomId) => {
+        navigate(`/admin/edit-room/${roomId}`);
+    };
     useEffect(() => {
         const fetchRooms = async () => {
             try {
@@ -75,7 +79,13 @@ function RoomsPage() {
                                                     year: "numeric",
                                                 })}</td>
                                                 <td>
-                                                    
+                                                    <div className="btn-group">
+                                                        <button type="button" onClick={() => handleEdit(room._id)} className="btn btn-outline-success d-flex edit-btn"><i className="material-symbols-outlined">edit_square</i>
+                                                        </button>
+                                                        <Tooltip style={{ backgroundColor: "#f8f9fa", color: "#000" }} anchorSelect=".edit-btn" place="top">
+                                                            Edit Room
+                                                        </Tooltip>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
