@@ -71,12 +71,12 @@ router.post(
             const userExist = await User.findOne(query);
 
             if (!userExist || userExist.status !== 'active') {
-                return res.status(400).json({ message: "Invalid username/email or password" });
+                return res.status(401).json({ message: "Invalid username/email or password" });
             }
 
             const correctPass = await bcrypt.compare(password, userExist.password);
             if (!correctPass) {
-                return res.status(400).json({ message: "Invalid username/email or password" });
+                return res.status(401).json({ message: "Invalid username/email or password" });
             }
 
             const token = jwt.sign({ id: userExist._id }, process.env.JWT_SECRET);

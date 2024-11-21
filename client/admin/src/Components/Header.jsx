@@ -1,12 +1,41 @@
 import { Link } from 'react-router-dom';
-import avatar1 from '../assets/images/avatars/01.png';
 import apps13 from '../assets/images/apps/13.png';
 import apps14 from '../assets/images/apps/14.png';
 import avatar6 from '../assets/images/avatars/06.png';
 import { useEffect, useState } from 'react';
+function Header() {
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    console.error("Token not found");
+                    return;
+                }
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/profile/me`, {
+                    method: "GET",
+                    headers: { token: token },
+                });
 
-const Header = ({name}) => {
 
+                if (response.ok) {
+                    const data = await response.json();
+                    setUser(data);
+                } else {
+                    console.error("Failed to fetch user info");
+                }
+            } catch (error) {
+                console.error("Error fetching user info:", error);
+            }
+        };
+
+        fetchUserInfo();
+    }, []);
+    
+    if (!user) {
+        return <div>Loading...</div>;
+    }
     return (
         <>
             <header className="top-header">
@@ -52,7 +81,7 @@ const Header = ({name}) => {
                                         <a className="dropdown-item border-bottom py-2" >
                                             <div className="d-flex align-items-center gap-3">
                                                 <div className="">
-                                                    <img src={avatar1} className="rounded-circle" width="45" height="45" alt="" />
+                                                    <img src={`${import.meta.env.VITE_BACKEND_URL}${user.profile.image}`} className="rounded-circle" width="45" height="45" alt="" />
                                                 </div>
                                                 <div className="">
                                                     <h5 className="notify-title">Congratulations Jhon</h5>
@@ -155,14 +184,14 @@ const Header = ({name}) => {
                         </li>
                         <li className='nav-item dropdown'>
                             <a className="dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown">
-                                <img src={avatar1} className="rounded-circle p-1 border" width="45" height="45" alt="" />
+                                <img src={`${import.meta.env.VITE_BACKEND_URL}${user.profile.image}`} className="rounded-circle p-1 border" width="45" height="45" alt="" />
                             </a>
                             <div className="dropdown-menu dropdown-user dropdown-menu-end shadow">
                                 <a className="dropdown-item  gap-2 py-2">
                                     <div className="text-center">
-                                        <img src={avatar1} className="rounded-circle p-1 shadow mb-3" width="90" height="90"
+                                        <img src={`${import.meta.env.VITE_BACKEND_URL}${user.profile.image}`} className="rounded-circle p-1 shadow mb-3" width="90" height="90"
                                             alt="" />
-                                        <h5 className="user-name mb-0 fw-bold">Hello, {name}</h5>
+                                        <h5 className="user-name mb-0 fw-bold">Hello, {user.profile.name}</h5>
                                     </div>
                                 </a>
                                 <hr className="dropdown-divider" />

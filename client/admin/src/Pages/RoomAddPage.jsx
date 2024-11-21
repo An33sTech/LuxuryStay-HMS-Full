@@ -13,6 +13,7 @@ function RoomAddPage() {
         roomComments: "",
         persons: "",
         image: null,
+        lastCleaned: null,
     });
 
     const addFeature = () => {
@@ -47,6 +48,7 @@ function RoomAddPage() {
         data.append("roomShortDesc", formData.roomShortDesc);
         data.append("roomComments", formData.roomComments);
         data.append("persons", formData.persons);
+        data.append("lastCleaned", formData.lastCleaned);
 
         if (formData.image) {
             data.append("image", formData.image);
@@ -135,6 +137,10 @@ function RoomAddPage() {
                                         <option value="3">3</option>
                                         <option value="4">4</option>
                                     </select>
+                                </div>
+                                <div className="col-md-6">
+                                    <label htmlFor="lastCleaned" className="form-label">Last Cleaned</label>
+                                    <input type="date" onChange={onChange} id="lastCleaned" name="lastCleaned" className="form-control"></input>
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="image" className="form-label">Room Image</label>

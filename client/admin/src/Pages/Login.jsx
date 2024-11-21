@@ -1,14 +1,16 @@
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import logoImage from "../assets/images/logo1.png";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
     const navigate = useNavigate();
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [creds, setcreds] = useState({
+    const [creds, setCreds] = useState({
         usernameorEmail: "",
-        password: ""
+        password: "",
     });
+    const [loginError, setLoginError] = useState(""); // State for error message
 
     const togglePasswordVisibility = (e) => {
         e.preventDefault();
@@ -16,15 +18,15 @@ function LoginPage() {
     };
 
     const onChange = (e) => {
-        setcreds({ ...creds, [e.target.name]: e.target.value });
+        setCreds({ ...creds, [e.target.name]: e.target.value });
     };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const formData = {
-            usernameorEmail: e.target.inputUsernameorEmail.value,
-            password: e.target.inputPassword.value
+            usernameorEmail: creds.usernameorEmail,
+            password: creds.password,
         };
 
         try {
@@ -39,17 +41,18 @@ function LoginPage() {
             if (response.ok) {
                 const result = await response.json();
                 const token = result.token;
-                localStorage.setItem('token', token);
+                localStorage.setItem("token", token);
                 navigate("/admin");
             } else {
                 const errorData = await response.json();
-                alert("Login failed: " + errorData.message);
+                setLoginError(errorData.message || errorData.error[0].msg);
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("An error occurred. Please try again later.");
+            setLoginError("An error occurred. Please try again later.");
         }
     };
+
     return (
         <>
             <div className="auth-basic-wrapper d-flex align-items-center justify-content-center">
@@ -58,44 +61,88 @@ function LoginPage() {
                         <div className="col-12 col-md-8 col-lg-6 col-xl-5 col-xxl-4 mx-auto">
                             <div className="card rounded-4 mb-0 border-top border-4 border-primary border-gradient-1">
                                 <div className="card-body p-5">
-                                    <img src={logoImage} className="mb-4" width="145" alt="" />
+                                    <img src={logoImage} className="mb-4" width="145" alt="Logo" />
                                     <h4 className="fw-bold">Get Started Now</h4>
                                     <p className="mb-0">Enter your credentials to login your account</p>
+
+                                    {/* Animated Alert */}
+                                    <AnimatePresence>
+                                        {loginError && (
+                                            <motion.div
+                                                className="alert alert-border-danger alert-dismissible fade show mt-3"
+                                                initial={{ x: "100%", opacity: 0 }}
+                                                animate={{ x: 0, opacity: 1 }}
+                                                exit={{ x: "-100%", opacity: 0 }}
+                                                transition={{ duration: 0.5 }}
+                                            >
+                                                <div className="d-flex align-items-center">
+                                                    <div className="font-35 text-danger">
+                                                        <span className="material-icons-outlined fs-2">
+                                                            report_gmailerrorred
+                                                        </span>
+                                                    </div>
+                                                    <div className="ms-3">
+                                                        <h6 className="mb-0 text-danger">Error</h6>
+                                                        <div>{loginError}</div>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    className="btn-close"
+                                                    onClick={() => setLoginError("")}
+                                                    aria-label="Close"
+                                                ></button>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
 
                                     <div className="form-body my-5">
                                         <form className="row g-3" onSubmit={handleSubmit}>
                                             <div className="col-12">
-                                                <label htmlFor="inputUsernameorEmail" className="form-label">Email</label>
-                                                <input type="text" className="form-control" name="usernameorEmail" onChange={onChange} id="inputUsernameorEmail" required />
+                                                <label htmlFor="inputUsernameorEmail" className="form-label">
+                                                    Email
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="usernameorEmail"
+                                                    onChange={onChange}
+                                                    id="inputUsernameorEmail"
+                                                    required
+                                                />
                                             </div>
                                             <div className="col-12">
-                                                <label htmlFor="inputPassword" className="form-label">Password</label>
+                                                <label htmlFor="inputPassword" className="form-label">
+                                                    Password
+                                                </label>
                                                 <div className="input-group" id="show_hide_password">
-                                                    <input type={isPasswordVisible ? "text" : "password"} name="password" onChange={onChange} className="form-control border-end-0" id="inputPassword"/>
+                                                    <input
+                                                        type={isPasswordVisible ? "text" : "password"}
+                                                        name="password"
+                                                        onChange={onChange}
+                                                        className="form-control border-end-0"
+                                                        id="inputPassword"
+                                                    />
                                                     <a
                                                         onClick={togglePasswordVisibility}
                                                         className="input-group-text bg-transparent"
                                                     >
                                                         <i
-                                                            className={`bi ${isPasswordVisible
-                                                                ? "bi-eye-fill"
-                                                                : "bi-eye-slash-fill"
-                                                                }`}
+                                                            className={`bi ${
+                                                                isPasswordVisible ? "bi-eye-fill" : "bi-eye-slash-fill"
+                                                            }`}
                                                         ></i>
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div className="col-md-6">
-                                                <div className="form-check form-switch">
-                                                    <input className="form-check-input" type="checkbox" id="flexSwitchCheckChecked" />
-                                                    <label className="form-check-label" htmlFor="flexSwitchCheckChecked">Remember Me</label>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6 text-end">	<a href="auth-basic-forgot-password.html">Forgot Password ?</a>
+                                            <div className="col-md-12 text-end">
+                                                <a href="auth-basic-forgot-password.html">Forgot Password?</a>
                                             </div>
                                             <div className="col-12">
                                                 <div className="d-grid">
-                                                    <button type="submit" className="btn btn-grd-primary">Login</button>
+                                                    <button type="submit" className="btn btn-grd-primary">
+                                                        Login
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>
@@ -109,4 +156,5 @@ function LoginPage() {
         </>
     );
 }
+
 export default LoginPage;
