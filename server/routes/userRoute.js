@@ -144,7 +144,7 @@ router.patch('/update/:id/role-status', async (req, res) => {
     }
 });
 
-router.get("/me", authMiddleware, async (req, res) => {
+router.get("/profile/me", authMiddleware, async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.userId }).select("-password");
         
@@ -152,7 +152,7 @@ router.get("/me", authMiddleware, async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
         
-        res.status(200).json({ user });
+        res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ message: "Failed to fetch user information" });
     }

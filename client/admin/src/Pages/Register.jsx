@@ -43,9 +43,6 @@ function RegisterPage() {
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: formData,
       });
 
@@ -193,7 +190,7 @@ function RegisterPage() {
                     </div>
                     <div className="col-12">
                       <label htmlFor="image" className="form-label">Upload Your Image</label>
-                      <input id="fancy-file-upload" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" onChange={handleImageChange}></input>
+                      <input className="form-control" id="image" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" onChange={handleImageChange}></input>
                     </div>
                     <div className="col-12">
                       <div className="d-grid">

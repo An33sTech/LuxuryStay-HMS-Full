@@ -4,35 +4,9 @@ import apps13 from '../assets/images/apps/13.png';
 import apps14 from '../assets/images/apps/14.png';
 import avatar6 from '../assets/images/avatars/06.png';
 import { useEffect, useState } from 'react';
-function Header() {
-    const [user, setUser] = useState(null);
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    console.error("Token not found");
-                    return;
-                }
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/me`, {
-                    method: "GET",
-                    headers: { "token": token },
-                });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log("Fetched user data:", data);
-                    setUser(data.user);
-                } else {
-                    console.error("Failed to fetch user info");
-                }
-            } catch (error) {
-                console.error("Error fetching user info:", error);
-            }
-        };
+const Header = ({name}) => {
 
-        fetchUserInfo();
-    }, []);
     return (
         <>
             <header className="top-header">
@@ -188,7 +162,7 @@ function Header() {
                                     <div className="text-center">
                                         <img src={avatar1} className="rounded-circle p-1 shadow mb-3" width="90" height="90"
                                             alt="" />
-                                        <h5 className="user-name mb-0 fw-bold">Hello, Jhon</h5>
+                                        <h5 className="user-name mb-0 fw-bold">Hello, {name}</h5>
                                     </div>
                                 </a>
                                 <hr className="dropdown-divider" />
