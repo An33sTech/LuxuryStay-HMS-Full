@@ -41,7 +41,7 @@ const SelectRoom = () => {
           <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
             {/* Box 1: Room Image */}
             <div>
-              <img src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${room.image}`} alt={room.roomName} className="h-full w-full rounded-lg object-cover" />
+              <img src={`${import.meta.env.VITE_BACKEND_URL}${room.image}`} alt={room.roomName} className="h-full w-full rounded-lg object-cover" />
             </div>
 
             {/* Box 2: Room Details */}

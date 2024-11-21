@@ -3,8 +3,36 @@ import avatar1 from '../assets/images/avatars/01.png';
 import apps13 from '../assets/images/apps/13.png';
 import apps14 from '../assets/images/apps/14.png';
 import avatar6 from '../assets/images/avatars/06.png';
+import { useEffect, useState } from 'react';
 function Header() {
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    console.error("Token not found");
+                    return;
+                }
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/me`, {
+                    method: "GET",
+                    headers: { "token": token },
+                });
 
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Fetched user data:", data);
+                    setUser(data.user);
+                } else {
+                    console.error("Failed to fetch user info");
+                }
+            } catch (error) {
+                console.error("Error fetching user info:", error);
+            }
+        };
+
+        fetchUserInfo();
+    }, []);
     return (
         <>
             <header className="top-header">

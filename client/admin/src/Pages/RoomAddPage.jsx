@@ -65,9 +65,6 @@ function RoomAddPage() {
         try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms/create`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
                 body: data,
             });
 
@@ -76,19 +73,12 @@ function RoomAddPage() {
             }
 
             const result = await response.json();
-            alert("Room Added successfully!");
+            console.log(result);
         } catch (error) {
             alert("Error adding room: " + error.message);
         }
     };
-    useEffect(() => {
-        $('#fancy-file-upload').FancyFileUpload({
-            params: {
-                action: 'fileuploader',
-            },
-            maxfilesize: 1000000,
-        });
-    }, []);
+
     return (
         <>
             <Header />
@@ -148,7 +138,7 @@ function RoomAddPage() {
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="image" className="form-label">Room Image</label>
-                                    <input id="fancy-file-upload" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" onChange={handleImageChange}></input>
+                                    <input className="form-control" id="image" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" onChange={handleImageChange}></input>
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="roomFeatures" className="form-label">Room Features</label>

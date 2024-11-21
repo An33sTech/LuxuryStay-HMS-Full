@@ -2,7 +2,7 @@ const express = require('express');
 const Room = require('../models/Room');
 const Reservation = require('../models/Reservation');
 const router = express.Router();
-const { singleUpload, anyUpload } = require("../middleware/upload");
+const { anyUpload } = require("../middleware/upload");
 
 const generateRoomNumber = async () => {
     let roomNumber;
@@ -21,10 +21,9 @@ const generateRoomNumber = async () => {
 };
 
 // CREATE a new room
-router.post("/create", singleUpload, anyUpload, async (req, res) => {
+router.post("/create", anyUpload, async (req, res) => {
     try {
         const { roomName, roomType, roomStatus, roomPrice, roomShortDesc, roomComments, persons } = req.body;
-        console.log(req.body);
 
         let features = [];
         if (typeof req.body.features === 'string') {
@@ -43,7 +42,8 @@ router.post("/create", singleUpload, anyUpload, async (req, res) => {
             }
         });
 
-        const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+        const mainImage = (req.files || []).find(file => file.fieldname === "image");
+        const imagePath = mainImage ? `/uploads/${mainImage.filename}` : null;
 
         const roomNumber = await generateRoomNumber();
 
