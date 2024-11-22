@@ -15,7 +15,7 @@ const BookRoom = () => {
         country: '',
         city: ''
     });
-
+    const [roomPrice, setRoomPrice] = useState("");
     const { roomId } = useParams();
     const navigate = useNavigate();
 
@@ -24,6 +24,23 @@ const BookRoom = () => {
             alert('Room ID not found!');
             navigate('/');
         }
+        const fetchRoomDetails = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms/${roomId}`, {
+                    method: "GET",
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch room details.");
+                }
+
+                const result = await response.json();
+                setRoomPrice(result.price);
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+        fetchRoomDetails();
     }, [roomId, navigate]);
 
     const handleChange = (e) => {
@@ -34,38 +51,35 @@ const BookRoom = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Get data from localStorage
         const checkInFormData = JSON.parse(localStorage.getItem('checkInFormData'));
         if (!checkInFormData) {
             alert('Check-in form data is missing!');
             return;
         }
         
-
-        // Combine all data
         const payload = {
             guest: formData,
             room: roomId,
             checkIn: checkInFormData.start,
             checkOut: checkInFormData.end,
             services: [],
-            totalAmount: 1500
+            totalAmount: roomPrice
         };
 
         try {
-            const response = await fetch('/reserve-room', {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations/reserve-room`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                    token: localStorage.getItem('token')
                 },
                 body: JSON.stringify(payload)
             });
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
-                navigate('/paymentroom');
+                const reservationId = data.reservation._id;
+                navigate(`/paymentroom/${reservationId}`);
             } else {
                 const errorData = await response.json();
                 alert(errorData.message || 'Failed to reserve the room');
@@ -75,6 +89,7 @@ const BookRoom = () => {
             alert('Error reserving the room.');
         }
     };
+
     return (
         <div className="isolate px-6 py-24 sm:py-32 lg:px-8 ">
             <div
@@ -98,7 +113,7 @@ const BookRoom = () => {
                             <Link to={"/"}>
                                 <button className='border rounded-full px-5 py-2'>
                                     <FontAwesomeIcon icon={faArrowLeft} className='mr-2' />
-                                    Back to hotel
+                                    Back to Home
                                 </button>
                             </Link>
                         </div>
@@ -118,8 +133,8 @@ const BookRoom = () => {
 
                             <div>
                                 <input
-                                    id="first-name"
-                                    name="first-name"
+                                    id="firstName"
+                                    name="firstName"
                                     type="text"
                                     onChange={handleChange}
                                     placeholder='First Name'
@@ -129,8 +144,8 @@ const BookRoom = () => {
 
                             <div>
                                 <input
-                                    id="last-name"
-                                    name="last-name"
+                                    id="lastName"
+                                    name="lastName"
                                     type="text"
                                     onChange={handleChange}
                                     placeholder='Last Name'
@@ -140,8 +155,8 @@ const BookRoom = () => {
 
                             <div>
                                 <input
-                                    id="number"
-                                    name="number"
+                                    id="phoneNumber"
+                                    name="phoneNumber"
                                     type='number'
                                     onChange={handleChange}
                                     autoComplete="phone"
@@ -166,7 +181,7 @@ const BookRoom = () => {
                                 <input
                                     id="country"
                                     name="country"
-                                    type="country"
+                                    type="text"
                                     onChange={handleChange}
                                     autoComplete="country"
                                     placeholder='Country'
@@ -177,7 +192,7 @@ const BookRoom = () => {
                                 <input
                                     id="city"
                                     name="city"
-                                    type="city"
+                                    type="text"
                                     onChange={handleChange}
                                     autoComplete="city"
                                     placeholder='City'
@@ -191,7 +206,7 @@ const BookRoom = () => {
 
                         <div className='pt-5'>
                             <h1 className='font-[Unbounded] text-2xl font-semibold'>Total Price</h1>
-                            <p className='py-4 text-lg'>1500 USD</p>
+                            <p className='py-4 text-lg'>PKR {roomPrice}</p>
                         </div>
                         <Field className="flex gap-x-4 sm:col-span-2">
                             <div className="flex h-6 items-center">

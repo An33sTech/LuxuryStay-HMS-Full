@@ -13,7 +13,7 @@ function RoomAddPage() {
         roomComments: "",
         persons: "",
         image: null,
-        lastCleaned: null,
+        lastCleaned: "",
     });
 
     const addFeature = () => {
@@ -136,6 +136,7 @@ function RoomAddPage() {
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
+                                        <option value="5">5</option>
                                     </select>
                                 </div>
                                 <div className="col-md-6">

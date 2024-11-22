@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { rooms } from "../Components/roomsData";
 import { Link } from "react-router-dom";
 
 const SelectRoom = () => {

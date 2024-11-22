@@ -53,6 +53,7 @@ function RoomsPage() {
                                             <th>Room Number</th>
                                             <th>Room Name</th>
                                             <th>Type</th>
+                                            <th>Persons</th>
                                             <th>Status</th>
                                             <th>Price</th>
                                             <th>Last Cleaned</th>
@@ -66,6 +67,7 @@ function RoomsPage() {
                                                 <td>{room.roomNumber}</td>
                                                 <td>{room.roomName}</td>
                                                 <td>{room.type}</td>
+                                                <td>{room.persons}</td>
                                                 <td>{room.status.charAt(0).toUpperCase() + room.status.slice(1)}</td>
                                                 <td>{room.price}</td>
                                                 <td>{new Date(room.lastCleaned).toLocaleDateString("en-GB", {

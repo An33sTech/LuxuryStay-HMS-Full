@@ -15,6 +15,7 @@ function RoomEditPage() {
         roomComments: "",
         persons: "",
         roomImage: null,
+        lastCleaned: "",
     });
 
     useEffect(() => {
@@ -38,21 +39,16 @@ function RoomEditPage() {
                     roomComments: result.comments || "",
                     persons: result.persons || "",
                     roomImage: result.image || null,
+                    lastCleaned: result.lastCleaned || "",
                 });
                 setFeatures(result.features || [{ icon: null, text: "" }]);
-                
+
             } catch (error) {
                 alert(error.message);
             }
         };
 
         fetchRoomDetails();
-        $('#fancy-file-upload').FancyFileUpload({
-            params: {
-                action: 'fileuploader',
-            },
-            maxfilesize: 1000000,
-        });
     }, [roomId]);
 
 
@@ -90,6 +86,7 @@ function RoomEditPage() {
         data.append("roomShortDesc", formData.roomShortDesc);
         data.append("roomComments", formData.roomComments);
         data.append("persons", formData.persons);
+        data.append("lastCleaned", formData.lastCleaned);
 
         if (formData.roomImage) {
             data.append("roomImage", formData.roomImage);
@@ -111,7 +108,7 @@ function RoomEditPage() {
 
             const result = await response.json();
             console.log(result);
-            alert("Room Added successfully!");
+            alert("Room Updated successfully!");
         } catch (error) {
             alert("Error adding room: " + error.message);
         }
@@ -172,19 +169,22 @@ function RoomEditPage() {
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
+                                        <option value="5">5</option>
                                     </select>
                                 </div>
-                                <div className="col-md-12">
-                                    <label htmlFor="roomImage" className="form-label">Room Image</label>
-                                    {formData.roomImage && (
-                                        <p>
-                                            Current Image:{" "}
-                                            <a href={`${import.meta.env.VITE_BACKEND_URL}/uploads/${formData.roomImage}`} target="_blank" rel="noopener noreferrer">
-                                                {formData.roomImage}
-                                            </a>
-                                        </p>
-                                    )}
-                                    <input id="fancy-file-upload" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" onChange={handleImageChange}></input>
+                                <div className="col-md-6">
+                                    <label htmlFor="lastCleaned" className="form-label">Last Cleaned</label>
+                                    <input type="date" onChange={onChange} value={formData.lastCleaned} id="lastCleaned" name="lastCleaned" className="form-control"></input>
+                                </div>
+                                {formData.roomImage && (
+                                    <div className="col-md-6">
+                                        Current Room Image:{" "}
+                                        <img src={`${import.meta.env.VITE_BACKEND_URL}${formData.roomImage}`} alt={formData.roomName} className="img-fluid" />
+                                    </div>
+                                )}
+                                <div className="col-md-6">
+                                    <label htmlFor="roomImage" className="form-label">Change Room Image</label>
+                                    <input className="form-control" id="image" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" onChange={handleImageChange}></input>
                                 </div>
                                 <div className="col-md-12">
                                     <label htmlFor="roomFeatures" className="form-label">Room Features</label>
@@ -193,9 +193,9 @@ function RoomEditPage() {
                                             <div className="col-md-4">
                                                 {feature.icon && (
                                                     <p>
-                                                        Current File:{" "}
+                                                        Current Icon:{" "}
                                                         <a href={`${import.meta.env.VITE_BACKEND_URL}/uploads/${feature.icon}`} target="_blank" rel="noopener noreferrer">
-                                                            {feature.icon}
+                                                            View
                                                         </a>
                                                     </p>
                                                 )}

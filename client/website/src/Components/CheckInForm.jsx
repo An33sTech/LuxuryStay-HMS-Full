@@ -1,10 +1,9 @@
 import { faCalendar, faSearch, faSearchLocation, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CheckInForm = () => {
-  // State to handle start and end date values
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -13,7 +12,7 @@ const CheckInForm = () => {
     end: "",
     guests: ""
   });
-  // Function to handle changes in the start date input
+
   const handleStartDateChange = (e) => {
     const value = e.target.value;
     setStartDate(value);
@@ -33,17 +32,14 @@ const CheckInForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create an object with the form data
     const formData = {
       start: creds.start || startDate,
       end: creds.end || endDate,
       guests: creds.guests,
     };
 
-    // Save the form data to localStorage
     localStorage.setItem("checkInFormData", JSON.stringify(formData));
 
-    // Log to verify it works
     console.log("Form data saved to localStorage:", formData);
     navigate('/selectroom');
   };
@@ -102,6 +98,7 @@ const CheckInForm = () => {
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
+            <option value="5">5</option>
           </select>
         </div>
 

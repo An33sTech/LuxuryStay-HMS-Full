@@ -1,12 +1,47 @@
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 
 const PaymentRoom = () => {
+    const { reservationId } = useParams();
+    const navigate = useNavigate();
+    const [reservationDetails, setReservationDetails] = useState(null);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        if (!reservationId) {
+            alert('Reservation ID not found!');
+            navigate('/');
+            return;
+        }
+        const fetchReservationDetails = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/reservations/${reservationId}`, {
+                    method: "GET",
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch reservation details.");
+                }
+
+                const result = await response.json();
+                setReservationDetails(result);
+            } catch (error) {
+                alert(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchReservationDetails();
+    }, [reservationId, navigate]);
+    if (loading) {
+        return <p>Loading reservation details...</p>;
+    }
     return (
         <div>
 
-
+            
             <section className="isolate py-20">
                 <div
                     aria-hidden="true"

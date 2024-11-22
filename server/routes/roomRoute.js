@@ -23,7 +23,7 @@ const generateRoomNumber = async () => {
 // CREATE a new room
 router.post("/create", anyUpload, async (req, res) => {
     try {
-        const { roomName, roomType, roomStatus, roomPrice, roomShortDesc, roomComments, persons } = req.body;
+        const { roomName, roomType, roomStatus, roomPrice, roomShortDesc, roomComments, persons, lastCleaned } = req.body;
 
         let features = [];
         if (typeof req.body.features === 'string') {
@@ -58,6 +58,7 @@ router.post("/create", anyUpload, async (req, res) => {
             image: imagePath,
             features,
             comments: roomComments,
+            lastCleaned,
         });
 
         const savedRoom = await newRoom.save();
@@ -80,7 +81,7 @@ router.get('/', async (req, res) => {
 // UPDATE a room by ID
 router.put('/update/:id', anyUpload, async (req, res) => {
     try {
-        const { roomName, roomType, roomStatus, roomPrice, roomShortDesc, roomComments, persons } = req.body;
+        const { roomName, roomType, roomStatus, roomPrice, roomShortDesc, roomComments, persons, lastCleaned } = req.body;
         let features = [];
         if (typeof req.body.features === 'string') {
             features = JSON.parse(req.body.features);
@@ -110,6 +111,7 @@ router.put('/update/:id', anyUpload, async (req, res) => {
         room.price = roomPrice || room.price;
         room.features = features.length ? features : room.features;
         room.comments = roomComments || room.comments;
+        room.lastCleaned = lastCleaned || room.lastCleaned
 
         const updatedRoom = await room.save();
         res.status(200).json(updatedRoom);
