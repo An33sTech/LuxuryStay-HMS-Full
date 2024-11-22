@@ -51,6 +51,13 @@ function Sidebar() {
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <Link to={"/admin/feedbacks"}>
+                                <div className="parent-icon"><i className="material-symbols-outlined">thumbs_up_down</i>
+                                </div>
+                                <div className="menu-title">Feedbacks</div>
+                            </Link>
+                        </li>
                     </ul>
                 </div>
             </aside>

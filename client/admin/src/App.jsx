@@ -38,6 +38,7 @@ import ReservationsPage from "./Pages/Reservations.jsx"
 import RoomsPage from "./Pages/Rooms.jsx"
 import RoomAddPage from "./Pages/RoomAddPage.jsx"
 import RoomEditPage from "./Pages/RoomEditPage.jsx"
+import FeedbackDetails from "./Pages/Feedback.jsx"
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
           <Route path="/admin/rooms" Component={() => (<ProtectedRoute><RoomsPage/></ProtectedRoute>)} />
           <Route path="/admin/room-new" Component={() => (<ProtectedRoute><RoomAddPage/></ProtectedRoute>)} />
           <Route path="/admin/edit-room/:roomId" Component={() => (<ProtectedRoute><RoomEditPage/></ProtectedRoute>)} />
+          <Route path="/admin/feedbacks" Component={() => (<ProtectedRoute><FeedbackDetails/></ProtectedRoute>)} />
         </Routes>
       </BrowserRouter>
     </>

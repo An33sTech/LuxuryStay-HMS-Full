@@ -48,8 +48,6 @@ function ReservationsPage(){
                                             <th>Room</th>
                                             <th>Check In Date</th>
                                             <th>Check Out Date</th>
-                                            <th>Service</th>
-                                            <th>Service Amount</th>
                                             <th>Total Amount</th>
                                             <th>Reservation Date</th>
                                             <th>Actions</th>
@@ -58,7 +56,7 @@ function ReservationsPage(){
                                     <tbody>
                                         {reservations.map((reservation, index) => (
                                             <tr key={index}>
-                                                <td>{reservation.guest.username}</td>
+                                                <td>{reservation.guest.profile.name}</td>
                                                 <td>{reservation.room.roomName}</td>
                                                 <td>{new Date(reservation.checkIn).toLocaleDateString("en-GB", {
                                                     day: "2-digit",
@@ -70,8 +68,6 @@ function ReservationsPage(){
                                                     month: "2-digit",
                                                     year: "numeric",
                                                 })}</td>
-                                                <td>{reservation.services.serviceName}</td>
-                                                <td>{reservation.services.amount}</td>
                                                 <td>{reservation.totalAmount}</td>
                                                 <td>{new Date(reservation.reservationDate).toLocaleDateString("en-GB", {
                                                     day: "2-digit",
