@@ -8,7 +8,7 @@ $(function () {
 
   new PerfectScrollbar(".notify-list")
 
-  new PerfectScrollbar(".search-content")
+  // new PerfectScrollbar(".search-content")
 
   // new PerfectScrollbar(".mega-menu-widgets")
 

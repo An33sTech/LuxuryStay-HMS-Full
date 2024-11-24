@@ -57,8 +57,8 @@ $(function() {
    },
   };
 
-  var chart = new ApexCharts(document.querySelector("#chart1"), options);
-  chart.render();
+  // var chart = new ApexCharts(document.querySelector("#chart1"), options);
+  // chart.render();
 
 
 
@@ -122,8 +122,8 @@ $(function() {
       }
       };
 
-      var chart = new ApexCharts(document.querySelector("#chart2"), options);
-      chart.render();
+      // var chart = new ApexCharts(document.querySelector("#chart2"), options);
+      // chart.render();
     
 
 
@@ -194,8 +194,8 @@ $(function() {
       }
       };
 
-      var chart = new ApexCharts(document.querySelector("#chart3"), options);
-      chart.render();
+      // var chart = new ApexCharts(document.querySelector("#chart3"), options);
+      // chart.render();
 
 
     // chart 4
@@ -238,8 +238,8 @@ $(function() {
         }]
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart4"), options);
-    chart.render();
+    // var chart = new ApexCharts(document.querySelector("#chart4"), options);
+    // chart.render();
 
 
 
@@ -284,8 +284,8 @@ var options = {
     }]
 };
 
-var chart = new ApexCharts(document.querySelector("#chart5"), options);
-chart.render();
+// var chart = new ApexCharts(document.querySelector("#chart5"), options);
+// chart.render();
 
 
 
@@ -374,8 +374,8 @@ var options = {
   labels: ['Total Leads'],
   };
   
-  var chart = new ApexCharts(document.querySelector("#chart6"), options);
-  chart.render();
+  // var chart = new ApexCharts(document.querySelector("#chart6"), options);
+  // chart.render();
   
   
 
@@ -442,8 +442,8 @@ var options = {
   labels: ['Median Ratio'],
   };
 
-  var chart = new ApexCharts(document.querySelector("#chart7"), options);
-  chart.render();
+  // var chart = new ApexCharts(document.querySelector("#chart7"), options);
+  // chart.render();
 
 
 

@@ -64,8 +64,8 @@ $(function () {
     }
 };
 
-var chart = new ApexCharts(document.querySelector("#chart1"), options);
-chart.render();
+// var chart = new ApexCharts(document.querySelector("#chart1"), options);
+// chart.render();
 
 
 
@@ -132,8 +132,8 @@ chart.render();
     }
 };
 
-var chart = new ApexCharts(document.querySelector("#chart2"), options);
-chart.render();
+// var chart = new ApexCharts(document.querySelector("#chart2"), options);
+// chart.render();
 
 
 
@@ -200,8 +200,8 @@ chart.render();
     }
 };
 
-var chart = new ApexCharts(document.querySelector("#chart3"), options);
-chart.render();
+// var chart = new ApexCharts(document.querySelector("#chart3"), options);
+// chart.render();
 
 
 
@@ -274,8 +274,8 @@ chart.render();
     }
 };
 
-var chart = new ApexCharts(document.querySelector("#chart4"), options);
-chart.render();
+// var chart = new ApexCharts(document.querySelector("#chart4"), options);
+// chart.render();
 
 
 
@@ -364,8 +364,8 @@ chart.render();
         }
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart5"), options);
-    chart.render();
+    // var chart = new ApexCharts(document.querySelector("#chart5"), options);
+    // chart.render();
 
 
 
@@ -417,8 +417,8 @@ chart.render();
         }]
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart6"), options);
-    chart.render();
+    // var chart = new ApexCharts(document.querySelector("#chart6"), options);
+    // chart.render();
 
 
 
@@ -491,8 +491,8 @@ chart.render();
     }
 };
 
-var chart = new ApexCharts(document.querySelector("#chart7"), options);
-chart.render();
+// var chart = new ApexCharts(document.querySelector("#chart7"), options);
+// chart.render();
 
 
 
@@ -577,8 +577,8 @@ chart.render();
         labels: ['Total Orders'],
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart8"), options);
-    chart.render();
+    // var chart = new ApexCharts(document.querySelector("#chart8"), options);
+    // chart.render();
 
 
 
@@ -654,8 +654,8 @@ chart.render();
         }
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart9"), options);
-    chart.render();
+    // var chart = new ApexCharts(document.querySelector("#chart9"), options);
+    // chart.render();
 
 
 
