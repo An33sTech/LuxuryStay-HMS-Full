@@ -5,53 +5,6 @@ import Sidebar from "../Components/Sidebar";
 
 function UsersDetails() {
     const [users, setUsers] = useState([]);
-    const handleDeactivateUser = async (userId) => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/update/${userId}/role-status`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ status: 'inactive' }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to deactivate user");
-            }
-
-            setUsers((prevUsers) =>
-                prevUsers.map((user) =>
-                    user.id === userId ? { ...user, status: 'inactive' } : user
-                )
-            );
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
-
-    const handleActivateUser = async (userId) => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/update/${userId}/role-status`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ status: 'active' }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to activate user");
-            }
-
-            setUsers((prevUsers) =>
-                prevUsers.map((user) =>
-                    user.id === userId ? { ...user, status: 'active' } : user
-                )
-            );
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -79,6 +32,56 @@ function UsersDetails() {
             $('#usersTable').DataTable();
         }
     }, [users]);
+
+    const handleDeactivateUser = async (userId) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/update/${userId}/role-status`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ status: 'inactive' }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to deactivate user");
+            }
+
+            setUsers((prevUsers) =>
+                prevUsers.map((user) =>
+                    user._id === userId ? { ...user, status: 'inactive' } : user
+                )
+            );
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+    const handleActivateUser = async (userId) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/update/${userId}/role-status`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ status: 'active' }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to activate user");
+            }
+
+            setUsers((prevUsers) =>
+                prevUsers.map((user) =>
+                    user._id === userId ? { ...user, status: 'active' } : user
+                )
+            );
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+
     return (
         <>
             <Header />

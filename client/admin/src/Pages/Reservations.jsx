@@ -56,7 +56,7 @@ function ReservationsPage(){
                                     <tbody>
                                         {reservations.map((reservation, index) => (
                                             <tr key={index}>
-                                                <td>{reservation.guest.profile.name}</td>
+                                                <td>{reservation.guest?.profile?.name}</td>
                                                 <td>{reservation.room.roomName}</td>
                                                 <td>{new Date(reservation.checkIn).toLocaleDateString("en-GB", {
                                                     day: "2-digit",
