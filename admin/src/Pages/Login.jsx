@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImage from "../assets/images/logo1.png";
 import { useNavigate } from "react-router-dom";
+import Preloader from "../Components/Preloader";
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -10,7 +11,8 @@ function LoginPage() {
         usernameorEmail: "",
         password: "",
     });
-    const [loginError, setLoginError] = useState(""); // State for error message
+    const [loginError, setLoginError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const togglePasswordVisibility = (e) => {
         e.preventDefault();
@@ -23,7 +25,7 @@ function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setIsLoading(true);
         const formData = {
             usernameorEmail: creds.usernameorEmail,
             password: creds.password,
@@ -50,8 +52,13 @@ function LoginPage() {
         } catch (error) {
             console.error("Error:", error);
             setLoginError("An error occurred. Please try again later.");
+        } finally {
+            setIsLoading(false);
         }
     };
+    if (isLoading) {
+        return <Preloader />
+    }
 
     return (
         <>
@@ -65,16 +72,13 @@ function LoginPage() {
                                     <h4 className="fw-bold">Get Started Now</h4>
                                     <p className="mb-0">Enter your credentials to login your account</p>
 
-                                    {/* Animated Alert */}
                                     <AnimatePresence>
                                         {loginError && (
-                                            <motion.div
-                                                className="alert alert-border-danger alert-dismissible fade show mt-3"
+                                            <motion.div className="alert alert-border-danger alert-dismissible fade show mt-3"
                                                 initial={{ x: "100%", opacity: 0 }}
                                                 animate={{ x: 0, opacity: 1 }}
                                                 exit={{ x: "-100%", opacity: 0 }}
-                                                transition={{ duration: 0.5 }}
-                                            >
+                                                transition={{ duration: 0.5 }}>
                                                 <div className="d-flex align-items-center">
                                                     <div className="font-35 text-danger">
                                                         <span className="material-icons-outlined fs-2">
@@ -86,12 +90,7 @@ function LoginPage() {
                                                         <div>{loginError}</div>
                                                     </div>
                                                 </div>
-                                                <button
-                                                    type="button"
-                                                    className="btn-close"
-                                                    onClick={() => setLoginError("")}
-                                                    aria-label="Close"
-                                                ></button>
+                                                <button type="button" className="btn-close" onClick={() => setLoginError("")} aria-label="Close"></button>
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
@@ -102,41 +101,21 @@ function LoginPage() {
                                                 <label htmlFor="inputUsernameorEmail" className="form-label">
                                                     Email
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="usernameorEmail"
-                                                    onChange={onChange}
-                                                    id="inputUsernameorEmail"
-                                                    required
-                                                />
+                                                <input type="text" className="form-control" name="usernameorEmail" onChange={onChange} id="inputUsernameorEmail" required />
                                             </div>
                                             <div className="col-12">
                                                 <label htmlFor="inputPassword" className="form-label">
                                                     Password
                                                 </label>
                                                 <div className="input-group" id="show_hide_password">
-                                                    <input
-                                                        type={isPasswordVisible ? "text" : "password"}
-                                                        name="password"
-                                                        onChange={onChange}
-                                                        className="form-control border-end-0"
-                                                        id="inputPassword"
-                                                    />
-                                                    <a
-                                                        onClick={togglePasswordVisibility}
-                                                        className="input-group-text bg-transparent"
-                                                    >
-                                                        <i
-                                                            className={`bi ${
-                                                                isPasswordVisible ? "bi-eye-fill" : "bi-eye-slash-fill"
-                                                            }`}
-                                                        ></i>
+                                                    <input type={isPasswordVisible ? "text" : "password"} name="password" onChange={onChange} className="form-control border-end-0" id="inputPassword" required />
+                                                    <a onClick={togglePasswordVisibility} className="input-group-text bg-transparent">
+                                                        <i className={`bi ${isPasswordVisible ? "bi-eye-fill" : "bi-eye-slash-fill"}`}></i>
                                                     </a>
                                                 </div>
                                             </div>
                                             <div className="col-md-12 text-end">
-                                                <a href="auth-basic-forgot-password.html">Forgot Password?</a>
+                                                <a href="#">Forgot Password?</a>
                                             </div>
                                             <div className="col-12">
                                                 <div className="d-grid">

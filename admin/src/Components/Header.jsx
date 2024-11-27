@@ -3,6 +3,8 @@ import apps13 from '../assets/images/apps/13.png';
 import apps14 from '../assets/images/apps/14.png';
 import avatar6 from '../assets/images/avatars/06.png';
 import { useEffect, useState } from 'react';
+import Preloader from "../Components/Preloader";
+
 function Header() {
     const [user, setUser] = useState(null);
     useEffect(() => {
@@ -32,9 +34,9 @@ function Header() {
 
         fetchUserInfo();
     }, []);
-    
+
     if (!user) {
-        return <div>Loading...</div>;
+        return <Preloader />
     }
     return (
         <>
