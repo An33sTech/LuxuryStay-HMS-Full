@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImage from "../assets/images/logo1.png";
+import Preloader from "../Components/Preloader";
 
 function RegisterPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -14,6 +15,8 @@ function RegisterPage() {
     image: null,
   });
   const [registrationError, setRegistrationError] = useState("");
+  const [registrationSuccess, setRegistrationSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const togglePasswordVisibility = (e) => {
     e.preventDefault();
@@ -30,6 +33,7 @@ function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("username", creds.username);
     formData.append("password", creds.password);
@@ -51,6 +55,7 @@ function RegisterPage() {
       if (response.ok) {
         const result = await response.json();
         console.log(result);
+        setRegistrationSuccess("The account has been created, you can login now");
       } else {
         const errorData = await response.json();
         setRegistrationError(errorData.message || errorData.error[0].msg);
@@ -58,9 +63,13 @@ function RegisterPage() {
     } catch (error) {
       console.error("Error:", error);
       setRegistrationError("An error occurred. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
-
+  if (isLoading) {
+    return <Preloader />
+  }
   return (
     <>
       <div className="container-fluid my-5">
@@ -92,6 +101,28 @@ function RegisterPage() {
                         </div>
                       </div>
                       <button type="button" className="btn-close" onClick={() => setRegistrationError("")} aria-label="Close"></button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <AnimatePresence>
+                  {registrationSuccess && (
+                    <motion.div className="alert alert-border-success alert-dismissible fade show mt-3"
+                      initial={{ x: "100%", opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      exit={{ x: "-100%", opacity: 0 }}
+                      transition={{ duration: 0.5 }}>
+                      <div className="d-flex align-items-center">
+                        <div className="font-35 text-success">
+                          <span className="material-icons-outlined fs-2">
+                            check_circle
+                          </span>
+                        </div>
+                        <div className="ms-3">
+                          <h6 className="mb-0 text-success">Success</h6>
+                          <div>{registrationSuccess}</div>
+                        </div>
+                      </div>
+                      <button type="button" className="btn-close" onClick={() => setRegistrationSuccess("")} aria-label="Close"></button>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -146,7 +177,7 @@ function RegisterPage() {
                     </div>
                     <div className="col-12">
                       <label htmlFor="image" className="form-label">Upload Your Image</label>
-                      <input className="form-control" id="image" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" onChange={handleImageChange} required />
+                      <input className="form-control" id="image" type="file" name="image" accept=".jpg, .png, image/jpeg, image/png" onChange={handleImageChange} />
                     </div>
                     <div className="col-12">
                       <div className="d-grid">
