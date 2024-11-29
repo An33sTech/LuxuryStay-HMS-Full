@@ -1,4 +1,4 @@
-import { faAddressCard } from '@fortawesome/free-solid-svg-icons'
+import { faDownload, faReceipt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -39,9 +39,7 @@ const PaymentRoom = () => {
         return <p>Loading reservation details...</p>;
     }
     return (
-        <div>
-
-            
+        <>
             <section className="isolate py-20">
                 <div
                     aria-hidden="true"
@@ -58,81 +56,114 @@ const PaymentRoom = () => {
 
 
                 {/* <!-- Card body --> */}
-                <div className="relative px-4 sm:px-6 lg:px-8 pb-8 max-w-lg mx-auto  ">
+                <div className="relative px-8 pb-8 max-w-2xl mx-auto  ">
                     <div className="bg-[#313135] text-white px-8 pb-6  rounded-2xl shadow-lg">
 
                         {/* <!-- Card header --> */}
                         <div className="text-center mb-6">
                             <div className="mb-2">
-                                <FontAwesomeIcon className="-mt-8 inline-flex w-20 h-20" icon={faAddressCard} />
+                                <FontAwesomeIcon className="-mt-8 inline-flex w-20 h-20" icon={faReceipt} />
 
                             </div>
-                            <h1 className="text-xl leading-snug font-semibold mb-2 font-[Unbounded]">Pay With Card</h1>
-                            <div className="text-sm">
-                                Easy and Secure Payment end to end encrypted
-                            </div>
+                            <h1 className="text-4xl leading-snug font-semibold mb-2 font-[Unbounded]">Booking Details</h1>
                         </div>
 
 
                         {/* <!-- Card form --> */}
-                        <div>
-                            <div className="space-y-4">
-                                {/* <!-- Card Number --> */}
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Card Number <span className="text-red-500">*</span></label>
-                                    <input id="card-nr"
-                                        className="block bg-transparent outline-none border w-full rounded-xl px-3.5 py-2 shadow-sm placeholder:text-white sm:text-sm/6"
-                                        type="text" placeholder="1234 1234 1234 1234" />
-                                </div>
-                                {/* <!-- Expiry and CVC --> */}
-                                <div className="flex space-x-4">
-                                    <div className="flex-1">
-                                        <label className="block text-sm font-medium mb-1">Expiry Date <span className="text-red-500">*</span></label>
-                                        <input id="card-expiry"
-                                            className="block bg-transparent outline-none border w-full rounded-xl px-3.5 py-2 shadow-sm placeholder:text-white sm:text-sm/6"
-                                            type="text" placeholder="MM/YY" />
+
+                        <div className='py-6'>
+                            <h2 className="text-2xl font-bold">Hey {reservationDetails.reservation.guest.profile.name},</h2>
+                            <p className="text-sm font-extralight mt-2">
+                                Your room ({reservationDetails.reservation.room.roomName + ' - ' + reservationDetails.reservation.room.roomNumber}) has been successfully booked! Enjoy a luxurious stay at our hotel. Please bring this
+                                invoice receipt with you upon arrival for a smooth check-in experience. We look forward to welcoming you!
+                            </p>
+
+                            <div className="border-t border-gray-200 pt-4 mt-4">
+                                <div className="flex justify-between">
+                                    <div>
+                                        <p className="text-gray-500 text-sm">Payment No.</p>
+                                        <strong>{reservationDetails.billing._id}</strong>
                                     </div>
-                                    <div className="flex-1">
-                                        <label className="block text-sm font-medium mb-1">CVC <span className="text-red-500">*</span></label>
-                                        <input id="card-cvc"
-                                            className="block bg-transparent outline-none border w-full rounded-xl px-3.5 py-2 shadow-sm placeholder:text-white sm:text-sm/6"
-                                            type="text" placeholder="CVC" />
+                                    <div className="text-right">
+                                        <p className="text-gray-500 text-sm">Payment Date</p>
+                                        <strong>{new Date(reservationDetails.billing.issuedAt).toLocaleDateString("en-GB", {
+                                            day: "2-digit",
+                                            month: "2-digit",
+                                            year: "numeric",
+                                        })}</strong>
                                     </div>
-                                </div>
-                                {/* <!-- Name on Card --> */}
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Name on Card <span className="text-red-500">*</span></label>
-                                    <input id="card-name"
-                                        className="block bg-transparent outline-none border w-full rounded-xl px-3.5 py-2 shadow-sm placeholder:text-white sm:text-sm/6"
-                                        type="text" placeholder="John Doe" />
-                                </div>
-                                {/* <!-- Email --> */}
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Email <span className="text-red-500">*</span></label>
-                                    <input id="card-email"
-                                        className="block bg-transparent outline-none border w-full rounded-xl px-3.5 py-2 shadow-sm placeholder:text-white sm:text-sm/6"
-                                        type="email" placeholder="john@company.com" />
                                 </div>
                             </div>
-                            {/* <!-- Form footer --> */}
-                            <div className="mt-6">
-                                <div className="mb-4">
-                                    <button className="btn font-medium text-sm inline-flex items-center justify-center px-3 py-2 rounded-xl leading-5 shadow-sm transition duration-150 ease-in-out w-full">
-                                        Pay Now
-                                    </button>
+
+                            <div className="border-t border-gray-200 mt-4 py-4">
+                                <div className="flex justify-between">
+                                    <div>
+                                        <p className="text-gray-500 text-sm">Client</p>
+                                        <strong>{reservationDetails.reservation.guest.profile.name}</strong>
+                                        <p className="text-sm">
+                                            {/* 989 5th Avenue, New York, 55832 */}
+                                            <br />
+                                            <a href="mailto:john@email.com" className="text-[#CDB9FF]">
+                                                {reservationDetails.reservation.guest.profile.contact.email}
+                                            </a>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="text-xs text-gray-500 italic text-center">You be charged $253, including $48 for VAT in Italy</div>
+                            </div>
+
+                            <table className="w-full border-b border-gray-200 mt-3">
+                                <thead>
+                                    <tr className="text-left text-gray-500 text-sm uppercase">
+                                        <th className="px-0 py-2">Room Name</th>
+                                        <th className="px-0 py-2">Persons</th>
+                                        <th className="px-0 py-2">Check-in</th>
+                                        <th className="px-0 py-2">Check-out</th>
+                                        <th className="px-0 py-2 text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="px-0 py-2">{reservationDetails.reservation.room.roomName}</td>
+                                        <td className="px-0 py-2">{reservationDetails.reservation.room.persons}</td>
+                                        <td className="px-0 py-2">{new Date(reservationDetails.reservation.checkIn).toLocaleDateString("en-GB", {
+                                            day: "2-digit",
+                                            month: "2-digit",
+                                            year: "numeric",
+                                        })}</td>
+                                        <td className="px-0 py-2">{new Date(reservationDetails.reservation.checkOut).toLocaleDateString("en-GB", {
+                                            day: "2-digit",
+                                            month: "2-digit",
+                                            year: "numeric",
+                                        })}</td>
+                                        <td className="px-0 py-2 text-right">{reservationDetails.reservation.totalAmount}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div className="mt-5">
+                                <div className="flex justify-end mt-3">
+                                    <h5 className="mr-3 text-lg font-bold">Total:</h5>
+                                    <h5 className="text-lg font-bold text-cyan-500">{reservationDetails.reservation.totalAmount}</h5>
+                                </div>
                             </div>
                         </div>
-
-
+                        {/* <!-- Form footer --> */}
+                        <div className="mt-6">
+                            <div className="mb-4">
+                                <button
+                                    className="btn font-medium text-sm inline-flex items-center justify-center px-3 py-2 rounded-xl leading-5 shadow-sm transition duration-150 ease-in-out w-full">
+                                    <FontAwesomeIcon icon={faDownload} className='mr-2' />
+                                    Download
+                                </button>
+                            </div>
+                            <div className="text-xs text-gray-500 italic text-center">Cash payment will be accepted upon arrival.</div>
+                        </div>
                     </div>
                 </div>
 
+
             </section>
-
-
-        </div>
+        </>
     )
 }
 

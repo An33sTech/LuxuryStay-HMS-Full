@@ -9,8 +9,8 @@ const SelectRoom = () => {
     const fetchRooms = async () => {
       try {
         const checkInFormData = JSON.parse(localStorage.getItem("checkInFormData"));
-        const { start, end } = checkInFormData || {};
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms/available?start=${start}&end=${end}`, {
+        const { start, end, guests } = checkInFormData || {};
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/rooms/available?start=${start}&end=${end}&guests=${guests}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -29,11 +29,13 @@ const SelectRoom = () => {
     fetchRooms();
   }, []);
   useEffect(() => {
-
+    
   }, [rooms]);
   return (
     <div className="m-5">
-      <h1 className="text-4xl font-bold text-white py-5 font-[Unbounded]">Choose Your Room</h1>
+      <h1 className="text-4xl font-bold text-white py-5 font-[Unbounded]">
+        {rooms.length > 0 ? "Choose Your Room" : "Sorry! There are no rooms available for the selected dates and guests :("}
+      </h1>
 
       {rooms.map((room) => (
         <div key={room._id} className="mb-5 bg-[#313135] text-white rounded-lg p-5 shadow-2xl">

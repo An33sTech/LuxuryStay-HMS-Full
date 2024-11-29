@@ -1,4 +1,4 @@
-import { faCalendar, faSearch, faSearchLocation, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faSearchLocation, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,8 @@ const CheckInForm = () => {
     end: "",
     guests: ""
   });
+
+  const today = new Date().toISOString().split('T')[0];
 
   const handleStartDateChange = (e) => {
     const value = e.target.value;
@@ -31,6 +33,11 @@ const CheckInForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    if (!creds.start || !creds.end || !creds.guests) {
+      alert("Please select all fields: Check-in date, Check-out date, and Guests.");
+      return;
+    }
 
     const formData = {
       start: creds.start || startDate,
@@ -61,6 +68,7 @@ const CheckInForm = () => {
             onChange={handleStartDateChange}
             className="bg-transparent border outline-none text-white text-sm rounded-lg block w-full pl-10 p-2.5 "
             placeholder="Select start date"
+            min={today}
           />
         </div>
 
@@ -78,6 +86,8 @@ const CheckInForm = () => {
             onChange={handleEndDateChange}
             className="bg-transparent border outline-none text-white text-sm rounded-lg block w-full pl-10 p-2.5 "
             placeholder="Select end date"
+            min={today}
+            disabled={startDate === ''}
           />
         </div>
 

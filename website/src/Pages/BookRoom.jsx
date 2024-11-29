@@ -62,7 +62,6 @@ const BookRoom = () => {
             room: roomId,
             checkIn: checkInFormData.start,
             checkOut: checkInFormData.end,
-            services: [],
             totalAmount: roomPrice
         };
 
