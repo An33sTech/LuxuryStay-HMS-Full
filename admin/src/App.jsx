@@ -40,6 +40,7 @@ import RoomsPage from "./Pages/Rooms.jsx"
 import RoomAddPage from "./Pages/RoomAddPage.jsx"
 import RoomEditPage from "./Pages/RoomEditPage.jsx"
 import FeedbackDetails from "./Pages/Feedback.jsx"
+import Profile from "./Pages/Profile.jsx"
 
 function App() {
   return (
@@ -47,7 +48,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
-          <Route path="/admin/register" Component={RegisterPage} />
           <Route path="/admin/login" Component={LoginPage} />
 
           {/* Protected Routes */}
@@ -59,6 +59,8 @@ function App() {
           <Route path="/admin/room-new" Component={() => (<ProtectedRoute><RoomAddPage/></ProtectedRoute>)} />
           <Route path="/admin/edit-room/:roomId" Component={() => (<ProtectedRoute><RoomEditPage/></ProtectedRoute>)} />
           <Route path="/admin/feedbacks" Component={() => (<ProtectedRoute><FeedbackDetails/></ProtectedRoute>)} />
+          <Route path="/admin/profile/:userId" Component={() => (<ProtectedRoute><Profile/></ProtectedRoute>)} />
+          <Route path="/admin/register" Component={() => (<ProtectedRoute><RegisterPage/></ProtectedRoute>)} />
         </Routes>
       </BrowserRouter>
     </>

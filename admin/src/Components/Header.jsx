@@ -197,6 +197,8 @@ function Header() {
                                     </div>
                                 </a>
                                 <hr className="dropdown-divider" />
+                                <Link to={`/admin/profile/${user._id}`} className="dropdown-item d-flex align-items-center gap-2 py-2"><i
+                                    className="material-icons-outlined">person_outline</i>Profile</Link>
                                 <hr className="dropdown-divider" />
                                 <Link to={"/admin/logout"} className="dropdown-item d-flex align-items-center gap-2 py-2"><i
                                     className="material-icons-outlined">power_settings_new</i>Logout</Link>
