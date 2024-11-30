@@ -7,6 +7,7 @@ import Preloader from "../Components/Preloader";
 
 function Header() {
     const [user, setUser] = useState(null);
+
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {

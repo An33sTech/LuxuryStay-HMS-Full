@@ -11,39 +11,95 @@ body {
 }
 
 .btn {
-  background: rgb(66, 230, 255);
   background: linear-gradient(90deg, rgba(66, 230, 255, 1) 0%, rgba(139, 94, 247, 1) 100%);
   color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1); /* Subtle shine effect */
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .btn:hover {
-  background: rgb(139, 94, 247);
-  background: linear-gradient(90deg, rgba(139, 94, 247, 1) 0%, rgba(66, 230, 255, 1) 100%);
+  color: rgba(255, 255, 255, 0.9); /* Slightly dim text for contrast */
+  /* border: 2px solid rgba(139, 94, 247, 1);  */
+  /* box-shadow: 0 0 20px rgba(139, 94, 247, 0.6), 0 0 30px rgba(66, 230, 255, 0.4);  */
+}
+
+.btn:hover::before {
+  opacity: 1; /* Make the shine visible */
+  animation: shine 0.8s linear forwards; /* Shine animation */
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 
+.headline-text {
+  animation: scroll-text 40s linear infinite;
+}
 
-/* slider */
-.swiper {
+@keyframes scroll-text {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* blogcard */
+@keyframes spinGlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.perspective {
+  perspective: 1000px;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.front,
+.back {
+  backface-visibility: hidden;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.preview {
+  transition: transform 0.2s ease-out;
+}
+.react-datepicker-wrapper {
   width: 100%;
-  height: 100%;
-}
-
-.swiper-slide {
-  position: relative;
-  text-align: center;
-  font-size: 18px;
-  height: 400px;
-  border-radius: 20px;
-  /* Center slide text vertically */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.swiper-slide img {
-  border-radius: 10px;
-  width: 160px;
-  height: 80px;
-  object-fit: cover;
 }

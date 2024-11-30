@@ -1,15 +1,19 @@
-import React from "react";
 import Hero from "./Hero"
-import Slider from "./Slider";
-import Gallery from "./Gallery";
-import BookRoom from "./BookRoom";
+import Slider from "../Components/Slider";
+import MasnoryGallery from "./MasnoryGallery";
+import BlogCard from "./BlogCard";
+import Services from "./Services";
+import ContactUs from "./ContactUs";
 
 const Page = () => {
   return (
     <>
       <Hero/>
       <Slider/>
-      <Gallery/>
+      <MasnoryGallery/>
+      <BlogCard/>
+      <Services/>
+      <ContactUs/>
     </>
   )
 }

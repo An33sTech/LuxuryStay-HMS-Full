@@ -1,6 +1,6 @@
 import React from "react";
 import { Fragment, useState } from 'react'
-import { navigation } from "../Components/Data";
+import { navigation } from "./Data";
 import {
   Dialog,
   DialogBackdrop,
@@ -17,9 +17,11 @@ import {
 } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from '../assets/luxurylogo.png'
-import LoginModal from '../Components/LoginModal';
-import SignUp from '../Components/SignUp'
+import LoginModal from '../Booking/LoginModal';
+import SignUp from '../Booking/SignUp'
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faHomeLg, faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -72,15 +74,27 @@ export default function Navbar() {
                 <XMarkIcon aria-hidden="true" className="h-6 w-6" />
               </button>
             </div>
-
+            <div className="space-y-6  px-6 pt-6">
+              {navigation.pages.map((page) => (
+                <div key={page.name} className=" flex items-center gap-4">
+                  <FontAwesomeIcon icon={page.icon} className="text-cyan-500"/>
+                  <Link
+                    className=" block font-medium text-white"
+                    to={page.href}
+                  >
+                      {page.name}
+                  </Link>
+                </div>
+              ))}
+            </div>
             {/* Links */}
             <TabGroup className="mt-2">
-              <div className="border-b border-gray-200">
+              <div className="">
                 <TabList className="-mb-px flex space-x-8 px-4">
-                  {navigation.categories.map((category) => (
+                  {navigation.categories.map((category) => (                
                     <Tab
                       key={category.name}
-                      className="flex-1 whitespace-nowrap px-1 py-4 text-base font-medium text-white"
+                      className="flex-1 whitespace-nowrap px-1 py-4 text-base font-medium text-white border-b"
                     >
                       {category.name}
                     </Tab>
@@ -128,38 +142,9 @@ export default function Navbar() {
               </TabPanels>
             </TabGroup>
 
-            <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-              {navigation.pages.map((page) => (
-                <div key={page.name} className="flow-root">
-                  <Link
-                    className="-m-2 block p-2 font-medium text-white"
-                    to={page.href}
-                  >
-                      {page.name}
-                  </Link>
-                </div>
-              ))}
-            </div>
+          
 
-            <div className="space-y-8 border-t border-gray-200 px-4 py-6">
-              <div className="flow-root">
-                <a href="#" onClick={handleOpen} className="group w-[50%] -m-2 flex items-center gap-2 px-2 py-1 text-sm font-bold text-white border border-gray-700 bg-transparent rounded-lg shadow-inner opacity-100 transform-none hover:bg-gray-700">
-                  Sign in
-                </a>
-                {modalopen && ( // Conditionally render the modal
-                  <LoginModal isOpen={modalopen} onClose={handleClose} />
-                )}
 
-              </div>
-              <div className="flow-root">
-                <a href="#" onClick={handleSignupOpen} className="btn group w-[50%] -m-2 flex items-center gap-2 px-2 py-1 text-sm font-bold text-gray-800  rounded-lg shadow-inner opacity-100 transform-none">
-                  Create Account
-                </a>
-                {signupopen && ( // Conditionally render the modal
-                    <SignUp isOpen={signupopen} onClose={handleSignupClose} />
-                  )}
-              </div>
-            </div>
 
           </DialogPanel>
         </div>
@@ -195,8 +180,10 @@ export default function Navbar() {
 
               {/* Flyout menus */}
               <PopoverGroup className="hidden lg:ml-8 lg:block lg:self-stretch">
-                <div className="flex h-full z-50 space-x-8">
+                <div className="flex h-full z-50 xl:space-x-8 space-x-4">
                   {navigation.pages.map((page) => (
+                    <div key={page.name} className=" flex items-center gap-1">
+                    <FontAwesomeIcon icon={page.icon} className="text-cyan-500 text-sm"/>
                     <Link
                     className="flex items-center text-sm font-medium text-white hover:text-gray-500" 
                     key={page.name}
@@ -204,10 +191,12 @@ export default function Navbar() {
                     >
                       {page.name}
                     </Link>
+                    </div>
                   ))}
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
-                      <div className="relative flex">
+                      <div className="relative flex items-center gap-2">
+                      <FontAwesomeIcon icon={category.icon} className="text-cyan-500"/>
                         <PopoverButton className="relative z-10 -mb-px flex items-center pt-px text-sm font-medium text-white transition-colors duration-200 ease-out hover:text-gray-500 outline-none">
                           {category.name}
                         </PopoverButton>
@@ -274,14 +263,14 @@ export default function Navbar() {
               {/* sign in */}
               <div className="ml-auto flex items-center">
 
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <a href="#" onClick={handleOpen} className=" group -m-2 flex items-center gap-2 px-2 py-1 text-sm font-bold text-white border border-gray-700 bg-transparent rounded-lg shadow-inner opacity-100 transform-none hover:bg-gray-700">
+                <div className="flex flex-1 items-center justify-end space-x-6">
+                  <a href="#" onClick={handleOpen} className=" group flex items-center gap-2 px-4 py-3 text-sm font-bold text-white border border-gray-700 bg-transparent rounded-lg shadow-inner opacity-100 transform-none hover:bg-gray-700">
                     Sign in
                   </a>
                   {modalopen && ( // Conditionally render the modal
                     <LoginModal isOpen={modalopen} onClose={handleClose} />
                   )}
-                  <a href="#" onClick={handleSignupOpen} className="btn group -m-2 flex items-center gap-2 px-2 py-1 text-sm font-bold text-gray-800 rounded-lg shadow-inner opacity-100 transform-none">
+                  <a href="#" onClick={handleSignupOpen} className="btn">
                     Create Account
                   </a>
                   {signupopen && ( // Conditionally render the modal

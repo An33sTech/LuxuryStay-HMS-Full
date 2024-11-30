@@ -18,9 +18,14 @@ function PricingChart() {
                     method: "GET",
                     headers: { token: token },
                 });
+
                 const data = await response.json();
                 const prices = data.pricing.map(item => item.price);
-                const dates = data.pricing.map(item => item.date);
+                const dates = data.pricing.map(item => new Date(item.date).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                }));
 
                 setChartData({
                     series: [{
@@ -43,38 +48,53 @@ function PricingChart() {
                 series: chartData.series,
                 chart: {
                     foreColor: "#9ba7b2",
-                    height: 350,
-                    type: 'line',
-                    zoom: { enabled: false },
-                },
-                stroke: {
-                    width: 2,
-                    curve: 'smooth'
-                },
-                xaxis: {
-                    categories: chartData.categories,
-                    title: {
-                        text: 'Date'
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Price'
+                    height: 380,
+                    type: 'bar',
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: !1,
                     }
                 },
                 fill: {
                     type: 'gradient',
                     gradient: {
                         shade: 'dark',
-                        gradientToColors: ['#00c6fb'],
+                        gradientToColors: ['#ffd200', '#00c6fb', '#7928ca'],
                         shadeIntensity: 1,
                         type: 'vertical',
-                        opacityFrom: 0.8,
-                        opacityTo: 0.3,
+                        stops: [0, 100, 100, 100]
                     },
                 },
+                colors: ['#ff6a00', "#005bea", "#ff0080"],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        borderRadius: 4,
+                        borderRadiusApplication: 'around',
+                        borderRadiusWhenStacked: 'last',
+                        columnWidth: '45%',
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: !0,
+                    width: 4,
+                    colors: ["transparent"]
+                },
+                grid: {
+                    show: true,
+                    borderColor: 'rgba(0, 0, 0, 0.15)',
+                    strokeDashArray: 4,
+                },
                 tooltip: {
-                    theme: 'dark',
+                    theme: "dark",
+                },
+                xaxis: {
+                    categories: chartData.categories,
                 }
             };
 

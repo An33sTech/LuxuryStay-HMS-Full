@@ -24,6 +24,7 @@ function OccupancyChart() {
                     method: "GET",
                     headers: { token: token },
                 });
+
                 const data = await response.json();
                 setChartData([data.occupancyRate || 0]);
             } catch (error) {

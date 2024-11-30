@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 
-const PaymentRoom = () => {
+const InvoiceRoom = () => {
     const { reservationId } = useParams();
     const navigate = useNavigate();
     const [reservationDetails, setReservationDetails] = useState(null);
@@ -38,6 +38,7 @@ const PaymentRoom = () => {
     if (loading) {
         return <p>Loading reservation details...</p>;
     }
+
     return (
         <>
             <section className="isolate py-20">
@@ -101,7 +102,6 @@ const PaymentRoom = () => {
                                         <p className="text-gray-500 text-sm">Client</p>
                                         <strong>{reservationDetails.reservation.guest.profile.name}</strong>
                                         <p className="text-sm">
-                                            {/* 989 5th Avenue, New York, 55832 */}
                                             <br />
                                             <a href="mailto:john@email.com" className="text-[#CDB9FF]">
                                                 {reservationDetails.reservation.guest.profile.contact.email}
@@ -160,11 +160,9 @@ const PaymentRoom = () => {
                         </div>
                     </div>
                 </div>
-
-
             </section>
         </>
     )
 }
 
-export default PaymentRoom
+export default InvoiceRoom

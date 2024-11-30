@@ -19,7 +19,6 @@ import './assets/js/jquery.min.js'
 // import './assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js'
 import './assets/plugins/metismenu/metisMenu.min.js'
 import './assets/plugins/apexchart/apexcharts.min.js'
-import './assets/plugins/apexchart/apex-custom-chart.js'
 import './assets/plugins/datatable/js/jquery.dataTables.min.js'
 import './assets/plugins/datatable/js/dataTables.bootstrap5.min.js'
 import './assets/plugins/fancy-file-uploader/jquery.ui.widget.js'
@@ -51,20 +50,20 @@ function App() {
           <Route path="/admin/login" Component={LoginPage} />
 
           {/* Protected Routes */}
-          <Route path="/admin" Component={() => (<ProtectedRoute><IndexPage/></ProtectedRoute>)} />
-          <Route path="/admin/users" Component={() => (<ProtectedRoute><UsersDetails/></ProtectedRoute>)} />
-          <Route path="/admin/logout" Component={() => (<ProtectedRoute><LogoutPage/></ProtectedRoute>)} />
-          <Route path="/admin/reservations" Component={() => (<ProtectedRoute><ReservationsPage/></ProtectedRoute>)} />
-          <Route path="/admin/rooms" Component={() => (<ProtectedRoute><RoomsPage/></ProtectedRoute>)} />
-          <Route path="/admin/room-new" Component={() => (<ProtectedRoute><RoomAddPage/></ProtectedRoute>)} />
-          <Route path="/admin/edit-room/:roomId" Component={() => (<ProtectedRoute><RoomEditPage/></ProtectedRoute>)} />
-          <Route path="/admin/feedbacks" Component={() => (<ProtectedRoute><FeedbackDetails/></ProtectedRoute>)} />
-          <Route path="/admin/profile/:userId" Component={() => (<ProtectedRoute><Profile/></ProtectedRoute>)} />
-          <Route path="/admin/register" Component={() => (<ProtectedRoute><RegisterPage/></ProtectedRoute>)} />
+          <Route path="/admin" Component={() => (<ProtectedRoute><IndexPage /></ProtectedRoute>)} />
+          <Route path="/admin/users" Component={() => (<ProtectedRoute><UsersDetails /></ProtectedRoute>)} />
+          <Route path="/admin/logout" Component={() => (<ProtectedRoute><LogoutPage /></ProtectedRoute>)} />
+          <Route path="/admin/reservations" Component={() => (<ProtectedRoute><ReservationsPage /></ProtectedRoute>)} />
+          <Route path="/admin/rooms" Component={() => (<ProtectedRoute><RoomsPage /></ProtectedRoute>)} />
+          <Route path="/admin/room-new" Component={() => (<ProtectedRoute><RoomAddPage /></ProtectedRoute>)} />
+          <Route path="/admin/edit-room/:roomId" Component={() => (<ProtectedRoute><RoomEditPage /></ProtectedRoute>)} />
+          <Route path="/admin/feedbacks" Component={() => (<ProtectedRoute><FeedbackDetails /></ProtectedRoute>)} />
+          <Route path="/admin/profile/:userId" Component={() => (<ProtectedRoute><Profile /></ProtectedRoute>)} />
+          <Route path="/admin/register" Component={() => (<ProtectedRoute><RegisterPage /></ProtectedRoute>)} />
         </Routes>
       </BrowserRouter>
     </>
   )
 }
 
-export default App
+export default App;

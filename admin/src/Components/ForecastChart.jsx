@@ -14,10 +14,12 @@ function ForecastChart({ roomId }) {
                     console.error("Token not found");
                     return;
                 }
+
                 const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/analytics/forecast/${roomId}`, {
                     method: "GET",
                     headers: { token: token },
                 });
+
                 const data = await response.json();
                 const forecastedValues = data.forecast.map(item => item.price);
                 const forecastDates = data.forecast.map(item => item.date);

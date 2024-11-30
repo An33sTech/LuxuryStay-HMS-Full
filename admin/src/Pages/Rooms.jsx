@@ -3,6 +3,7 @@ import { Tooltip } from "react-tooltip";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 import { useNavigate } from "react-router-dom";
+import Forbidden from "../Components/Forbidden";
 
 function RoomsPage() {
     const [rooms, setRooms] = useState([]);
@@ -36,6 +37,12 @@ function RoomsPage() {
             $('#roomsTable').DataTable();
         }
     }, [rooms]);
+
+    const role = localStorage.getItem("role");
+    if(!['admin', 'manager', 'receptionist'].includes(role)){
+        return <Forbidden />
+    }
+
     return (
         <>
             <Header />

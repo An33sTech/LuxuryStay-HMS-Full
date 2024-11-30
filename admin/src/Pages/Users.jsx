@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
+import Forbidden from "../Components/Forbidden";
 
 function UsersDetails() {
     const [users, setUsers] = useState([]);
@@ -22,7 +23,7 @@ function UsersDetails() {
                 const result = await response.json();
                 setUsers(result);
             } catch (error) {
-                console.log(error.message);
+                console.error(error.message);
             }
         };
         fetchUsers();
@@ -53,7 +54,7 @@ function UsersDetails() {
                 )
             );
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     };
 
@@ -77,11 +78,14 @@ function UsersDetails() {
                 )
             );
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     };
 
-
+    const role = localStorage.getItem("role");
+    if(!["admin", "manager"].includes(role)){
+        return <Forbidden />
+    }
     return (
         <>
             <Header />

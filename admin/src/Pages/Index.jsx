@@ -6,10 +6,13 @@ import RevenueChart from "../Components/RevenueChart";
 import ForecastChart from "../Components/ForecastChart";
 import PricingChart from "../Components/PricingChart";
 import { useEffect, useState } from "react";
+import Preloader from "../Components/Preloader";
 
 function IndexPage() {
     const [rooms, setRooms] = useState([]);
     const [selectedRoomId, setSelectedRoomId] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         const fetchRooms = async () => {
             try {
@@ -29,14 +32,22 @@ function IndexPage() {
                     setSelectedRoomId(result[0]._id);
                 }
             } catch (error) {
-                console.log(error.message);
+                console.error(error.message);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchRooms();
     }, []);
+
     const handleRoomSelect = (roomId) => {
         setSelectedRoomId(roomId);
     };
+
+    if (isLoading) {
+        return <Preloader />
+    }
+    
     return (
         <>
             <Header />

@@ -11,7 +11,7 @@ function RevenueChart() {
             try {
                 const token = localStorage.getItem("token");
                 if (!token) {
-                    console.error("Token not found");
+                    console.log("Token not found");
                     return;
                 }
                 const startDate = '2024-11-22';
@@ -26,7 +26,7 @@ function RevenueChart() {
                 const data = await response.json();
                 setChartData([data.revenue || 0]);
             } catch (error) {
-                console.error('Error fetching revenue:', error);
+                console.log('Error fetching revenue:', error);
             }
         };
 

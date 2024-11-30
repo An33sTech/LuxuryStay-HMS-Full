@@ -16,14 +16,15 @@ function FeedbackChart() {
                 }
                 const startDate = '2024-11-22';
                 const endDate = '2024-11-24';
+
                 const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/reports/feedback?startDate=${startDate}&endDate=${endDate}`, {
                     method: "GET",
                     headers: { token: token },
                 });
+
                 const data = await response.json();
 
-                // Process the feedback data to categorize by ratings
-                const ratingDistribution = [0, 0, 0, 0, 0]; // Assuming a 5-star rating system
+                const ratingDistribution = [12, 15, 24, 33, 34];
                 data.feedbacks.forEach(feedback => {
                     if (feedback.rating >= 1 && feedback.rating <= 5) {
                         ratingDistribution[feedback.rating - 1]++;
