@@ -14,6 +14,7 @@ function RegisterPage() {
     role: "",
     image: null,
   });
+  
   const [registrationError, setRegistrationError] = useState("");
   const [registrationSuccess, setRegistrationSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -34,22 +35,28 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const formData = new FormData();
-    formData.append("username", creds.username);
-    formData.append("password", creds.password);
-    formData.append("role", creds.role);
-    formData.append("profile[name]", creds.name);
-    formData.append("profile[contact][email]", creds.email);
-    formData.append("profile[contact][phone]", creds.phone);
 
-    if (creds.image) {
-      formData.append("image", creds.image);
-    }
+    const formData = {
+      username: creds.username,
+      password: creds.password,
+      role: creds.role,
+      profile: {
+        name: creds.name,
+        contact: {
+          email: creds.email,
+          phone: creds.phone
+        },
+        image: creds.image,
+      },
+    };
 
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/register`, {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {

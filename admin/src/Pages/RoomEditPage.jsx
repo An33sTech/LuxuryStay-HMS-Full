@@ -39,7 +39,7 @@ function RoomEditPage() {
                     roomComments: result.comments || "",
                     persons: result.persons || "",
                     roomImage: result.image || null,
-                    lastCleaned: result.lastCleaned || "",
+                    lastCleaned: new Date(result.lastCleaned).toISOString().split("T")[0] || "",
                 });
                 setFeatures(result.features || [{ icon: null, text: "" }]);
 
